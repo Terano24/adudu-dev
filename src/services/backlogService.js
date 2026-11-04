@@ -2,5 +2,9 @@ import data from '../data/backlog.json'
 
 // Sprint 1: data lokal (JSON). Ganti dengan API/database saat backend siap.
 export async function getBacklog() {
-  return data
+  return data.items
+}
+
+export async function getEpics() {
+  return data.epics
 }
