@@ -1,0 +1,5 @@
+[
+  { "id": "EPIC-1", "type": "epic", "title": "Core Backlog Architecture", "division": "Product", "status": "In Progress", "points": 0 },
+  { "id": "US-1", "type": "story", "epic": "EPIC-1", "title": "Sebagai PO, saya ingin mengelola Product Backlog di satu platform", "division": "Product", "status": "To Do", "points": 5 },
+  { "id": "US-2", "type": "story", "epic": "EPIC-1", "title": "Sebagai anggota divisi, saya ingin melihat task divisi saya", "division": "All", "status": "To Do", "points": 3 }
+]
