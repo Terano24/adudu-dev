@@ -1,29 +1,510 @@
 {
+  "product": {
+    "name": "SenaFlow",
+    "partner": "Antasena Team ITS",
+    "group": "Kelompok 6",
+    "class": "MPT A",
+    "vision": "Platform manajemen proyek Agile untuk Antasena Team ITS. Platform ini menyediakan papan Kanban yang dapat direview oleh alumni dan mitra, dashboard telemetri hasil uji jalan, serta Knowledge Vault untuk menjaga kesinambungan ilmu antargenerasi.",
+    "boardUrl": "https://trello.com/b/aSPEhCq4/my-trello-board"
+  },
+  "team": [
+    {
+      "name": "I Nyoman Agung Ananda Terano",
+      "nrp": "5026251030",
+      "role": "Product Owner",
+      "responsibility": "Menyusun dan memprioritaskan Product Backlog, menulis acceptance criteria, menyetujui hasil item"
+    },
+    {
+      "name": "Akbar Ariffianto",
+      "nrp": "5026251006",
+      "role": "Scrum Master",
+      "responsibility": "Memfasilitasi event Scrum, menyingkirkan hambatan, memastikan DoD dijalankan"
+    },
+    {
+      "name": "Aryo Gading Kelana",
+      "nrp": "5026251209",
+      "role": "Developer",
+      "responsibility": "Papan Kanban, DoD, simulator MQTT, burndown"
+    },
+    {
+      "name": "Muhammad Mazen Ibrahim",
+      "nrp": "5026251176",
+      "role": "Developer",
+      "responsibility": "Detail card, review alumni, telemetry dashboard, Knowledge Vault"
+    },
+    {
+      "name": "Dimas Aryo Aji Putro Dhonny Wibowo",
+      "nrp": "5026251094",
+      "role": "Developer",
+      "responsibility": "Auth, komentar, dependensi, review telemetri, notifikasi"
+    }
+  ],
+  "dod": [
+    "Fungsi berjalan pada lingkungan uji",
+    "Seluruh acceptance criteria item terpenuhi",
+    "Sudah diperiksa oleh anggota tim lain",
+    "Terdokumentasi dan tercatat di board",
+    "Disetujui Product Owner atau mitra"
+  ],
   "epics": [
-    { "id": "EPIC-1", "title": "Core Backlog Architecture & Data Structure", "goal": "Mengganti spreadsheet manual dengan Product Backlog dan Sprint Backlog terpusat", "sprint": 1 },
-    { "id": "EPIC-2", "title": "Cross-Division Dependency Visualization", "goal": "Keterkaitan tugas antardivisi terlihat transparan dan bottleneck bisa dicegah", "sprint": 2 },
-    { "id": "EPIC-3", "title": "Automated Progress Tracking & Burndown Chart", "goal": "Progres tim terlacak otomatis tanpa input manual", "sprint": 3 },
-    { "id": "EPIC-4", "title": "Platform Integration, Testing & Rollout", "goal": "Platform stabil, data lama termigrasi, dan dipakai seluruh divisi", "sprint": 4 },
-    { "id": "EPIC-5", "title": "Standardized Definition of Done (DoD) Gatekeeper", "goal": "Tidak ada tugas Done sebelum kriteria uji teknis terpenuhi", "sprint": 3 }
+    {
+      "id": "EPIC-1",
+      "title": "Kanban Board & Product Backlog",
+      "goal": "Pekerjaan dan prioritas Antasena tervisualisasi di papan, menggantikan spreadsheet dan broadcast WhatsApp",
+      "sprint": 1
+    },
+    {
+      "id": "EPIC-2",
+      "title": "Review & Komentar Alumni/Mitra",
+      "goal": "Alumni dan mitra dapat mengomentari dan mereview hasil setiap objektif yang selesai",
+      "sprint": 2
+    },
+    {
+      "id": "EPIC-3",
+      "title": "DoD Gatekeeper & Dependensi",
+      "goal": "Tidak ada task Done sebelum DoD terpenuhi, dan keterkaitan antar divisi terlihat",
+      "sprint": 2
+    },
+    {
+      "id": "EPIC-4",
+      "title": "Telemetry Dashboard",
+      "goal": "Hasil run kendaraan tampil sederhana dan dapat direview (memakai data simulasi, bukan data riil tim)",
+      "sprint": 3
+    },
+    {
+      "id": "EPIC-5",
+      "title": "Knowledge Vault",
+      "goal": "Arsip modul belajar, paper, dan evaluasi tim agar ilmu tidak hilang saat regenerasi",
+      "sprint": 4
+    }
   ],
   "items": [
-    { "id": "PBI-001", "epic": "EPIC-1", "type": "story", "title": "Sebagai PO, saya ingin skema data Product Backlog dan Sprint Backlog agar semua item terstruktur dan tidak tersebar di spreadsheet", "priority": "Must", "points": 8, "sprint": 1, "status": "To Do", "division": "Semua", "dependsOn": [], "acceptance": ["ERD mencakup Epic, Story, Task, Sprint, Divisi, User", "Relasi Epic > Story > Task terdefinisi", "Field wajib: ID, judul, prioritas, estimasi, status, divisi, sprint", "Data contoh (seed) tersedia"] },
-    { "id": "PBI-002", "epic": "EPIC-1", "type": "story", "title": "Sebagai PO, saya ingin membuat, mengubah, dan menghapus Epic agar tujuan besar tiap divisi tercatat", "priority": "Must", "points": 5, "sprint": 1, "status": "To Do", "division": "Semua", "dependsOn": ["PBI-001"], "acceptance": ["CRUD Epic berfungsi", "Epic punya tujuan dan status", "Epic yang punya Story tidak bisa dihapus tanpa konfirmasi"] },
-    { "id": "PBI-003", "epic": "EPIC-1", "type": "story", "title": "Sebagai PO, saya ingin mengelola User Story berformat Sebagai-saya ingin-agar beserta acceptance criteria", "priority": "Must", "points": 5, "sprint": 1, "status": "To Do", "division": "Semua", "dependsOn": ["PBI-002"], "acceptance": ["CRUD Story berfungsi", "Story wajib terhubung ke satu Epic", "Acceptance criteria minimal 1 item", "Story points memakai skala Fibonacci"] },
-    { "id": "PBI-004", "epic": "EPIC-1", "type": "story", "title": "Sebagai Ketua Divisi, saya ingin memecah Story menjadi Task untuk divisi saya agar pekerjaan bisa dibagi ke anggota", "priority": "Must", "points": 5, "sprint": 1, "status": "To Do", "division": "Semua", "dependsOn": ["PBI-003"], "acceptance": ["CRUD Task berfungsi", "Task punya penanggung jawab, divisi, dan estimasi jam", "Satu Story bisa punya banyak Task lintas divisi"] },
-    { "id": "PBI-005", "epic": "EPIC-1", "type": "story", "title": "Sebagai admin, saya ingin peran dan hak akses per divisi agar data tiap divisi aman", "priority": "Must", "points": 8, "sprint": 1, "status": "To Do", "division": "Semua", "dependsOn": ["PBI-001"], "acceptance": ["Peran: Product Owner, Ketua Divisi, Anggota", "PO bisa edit semua; Ketua Divisi hanya divisinya; Anggota hanya task miliknya", "Akses tanpa izin ditolak dengan pesan jelas"] },
-    { "id": "PBI-006", "epic": "EPIC-1", "type": "story", "title": "Sebagai PO, saya ingin mengurutkan dan memprioritaskan backlog (MoSCoW) agar tim tahu yang dikerjakan lebih dulu", "priority": "Should", "points": 3, "sprint": 1, "status": "To Do", "division": "Product", "dependsOn": ["PBI-003"], "acceptance": ["Prioritas Must/Should/Could/Won't", "Urutan bisa diubah drag-and-drop atau input nomor", "Filter berdasarkan sprint, divisi, dan prioritas"] },
-    { "id": "PBI-007", "epic": "EPIC-2", "type": "story", "title": "Sebagai Ketua Divisi, saya ingin Dependency Board agar tahu tugas divisi lain yang memengaruhi divisi saya", "priority": "Must", "points": 8, "sprint": 2, "status": "To Do", "division": "Semua", "dependsOn": ["PBI-004"], "acceptance": ["Papan menampilkan task per divisi dengan penghubung dependensi", "Task yang diblokir ditandai jelas", "Bisa difilter per sprint dan divisi"] },
-    { "id": "PBI-008", "epic": "EPIC-2", "type": "story", "title": "Sebagai PO, saya ingin pemetaan dependensi dan deteksi bottleneck agar kemacetan ketahuan sebelum terjadi", "priority": "Must", "points": 8, "sprint": 2, "status": "To Do", "division": "Product", "dependsOn": ["PBI-007"], "acceptance": ["Dependensi dibuat antar Task (blocks / blocked by)", "Dependensi melingkar ditolak", "Task yang memblokir 3 atau lebih task ditandai bottleneck"] },
-    { "id": "PBI-009", "epic": "EPIC-2", "type": "story", "title": "Sebagai anggota divisi, saya ingin notifikasi saat status task yang saya tunggu berubah agar bisa segera mulai", "priority": "Should", "points": 5, "sprint": 2, "status": "To Do", "division": "Semua", "dependsOn": ["PBI-008"], "acceptance": ["Notifikasi terkirim saat status task yang menjadi dependensi berubah", "Hanya divisi terdampak yang menerima", "Riwayat notifikasi bisa dilihat"] },
-    { "id": "PBI-010", "epic": "EPIC-3", "type": "story", "title": "Sebagai PO, saya ingin metrik kemajuan dihitung otomatis dari status backlog agar tidak perlu rekap manual", "priority": "Must", "points": 8, "sprint": 3, "status": "To Do", "division": "Product", "dependsOn": ["PBI-004"], "acceptance": ["Menghitung poin selesai, sisa, dan velocity per sprint", "Terupdate otomatis saat status task berubah", "Akurasi sama dengan hitungan manual pada data uji"] },
-    { "id": "PBI-011", "epic": "EPIC-3", "type": "story", "title": "Sebagai tim, saya ingin Burndown Chart interaktif real-time agar tahu apakah sprint sesuai target", "priority": "Must", "points": 8, "sprint": 3, "status": "To Do", "division": "Semua", "dependsOn": ["PBI-010"], "acceptance": ["Garis ideal vs aktual ditampilkan", "Update real-time tanpa refresh manual", "Tooltip menampilkan detail per hari"] },
-    { "id": "PBI-012", "epic": "EPIC-3", "type": "story", "title": "Sebagai Ketua Divisi, saya ingin dashboard metrik divisi dan individu agar bisa memantau beban kerja", "priority": "Should", "points": 5, "sprint": 3, "status": "To Do", "division": "Semua", "dependsOn": ["PBI-011"], "acceptance": ["Tampilan terpisah untuk ketua divisi dan anggota", "Menampilkan beban, progres, dan task terlambat", "Anggota tidak bisa melihat data divisi lain"] },
-    { "id": "PBI-013", "epic": "EPIC-5", "type": "story", "title": "Sebagai PO, saya ingin checklist DoD wajib per jenis output (komponen kendaraan, software, event) agar standar selesai seragam", "priority": "Must", "points": 8, "sprint": 3, "status": "To Do", "division": "Semua", "dependsOn": ["PBI-004"], "acceptance": ["Template checklist per jenis output bisa dikelola PO", "Task wajib memilih jenis output", "Kriteria uji teknis tertulis jelas per item"] },
-    { "id": "PBI-014", "epic": "EPIC-5", "type": "story", "title": "Sebagai PO, saya ingin status task terkunci dan tidak bisa menjadi Done sebelum seluruh checklist DoD terpenuhi", "priority": "Must", "points": 5, "sprint": 3, "status": "To Do", "division": "Semua", "dependsOn": ["PBI-013"], "acceptance": ["Tombol Done nonaktif jika ada item checklist belum centang", "Upaya mengubah status lewat cara lain ditolak", "Siapa yang mencentang dan kapan tercatat"] },
-    { "id": "PBI-015", "epic": "EPIC-4", "type": "story", "title": "Sebagai QA, saya ingin uji integrasi end-to-end alur penyerahan tugas antardivisi agar alur terbukti berjalan", "priority": "Must", "points": 5, "sprint": 4, "status": "To Do", "division": "QA", "dependsOn": ["PBI-009", "PBI-014"], "acceptance": ["Skenario: buat story, pecah task, dependensi, notifikasi, DoD, Done", "Semua skenario lulus", "Laporan uji terdokumentasi"] },
-    { "id": "PBI-016", "epic": "EPIC-4", "type": "story", "title": "Sebagai PO, saya ingin pengukuran performa dan perbaikan bug agar platform siap dipakai", "priority": "Must", "points": 5, "sprint": 4, "status": "To Do", "division": "QA", "dependsOn": ["PBI-015"], "acceptance": ["Halaman utama termuat di bawah 3 detik pada data nyata", "Tidak ada bug kritis terbuka", "Bug minor tercatat di backlog"] },
-    { "id": "PBI-017", "epic": "EPIC-4", "type": "story", "title": "Sebagai PO, saya ingin data akhir spreadsheet manual dimigrasi ke platform agar riwayat tidak hilang", "priority": "Must", "points": 5, "sprint": 4, "status": "To Do", "division": "Product", "dependsOn": ["PBI-001"], "acceptance": ["Seluruh baris spreadsheet ter-impor", "Jumlah data sebelum dan sesudah cocok", "Spreadsheet lama diarsipkan"] },
-    { "id": "PBI-018", "epic": "EPIC-4", "type": "story", "title": "Sebagai anggota divisi, saya ingin panduan penggunaan dan rollout resmi agar bisa langsung memakai platform", "priority": "Should", "points": 3, "sprint": 4, "status": "To Do", "division": "Semua", "dependsOn": ["PBI-016", "PBI-017"], "acceptance": ["Panduan pengguna per peran tersedia", "Sesi pengenalan untuk seluruh divisi terlaksana", "Spreadsheet manual resmi dihentikan"] }
-  ]
+    {
+      "id": "PBI-001",
+      "epic": "EPIC-1",
+      "title": "Sebagai anggota tim, saya ingin login dengan peran (Admin/PO, Anggota Tim, Alumni Reviewer) agar akses sesuai tugas saya",
+      "priority": "Must",
+      "points": 8,
+      "sprint": 1,
+      "status": "To Do",
+      "owner": "Dimas",
+      "dependsOn": [],
+      "acceptance": [
+        "Pengguna dapat login dan logout dengan akun terdaftar",
+        "Tiga peran tersedia: Admin/PO, Anggota Tim, Alumni Reviewer",
+        "Alumni Reviewer tidak dapat membuat atau menghapus card",
+        "Halaman terlarang menampilkan pesan akses ditolak"
+      ],
+      "rank": 2
+    },
+    {
+      "id": "PBI-002",
+      "epic": "EPIC-1",
+      "title": "Sebagai Developer, saya ingin papan Kanban dengan kolom To Do, In Progress, Review, Done agar status pekerjaan dapat dipantau dengan jelas",
+      "priority": "Must",
+      "points": 8,
+      "sprint": 1,
+      "status": "To Do",
+      "owner": "Aryo",
+      "dependsOn": [
+        "PBI-006"
+      ],
+      "acceptance": [
+        "Papan menampilkan 4 kolom",
+        "Card dapat dibuat, diubah, dan dihapus",
+        "Data card tetap ada setelah halaman di-refresh",
+        "Jumlah card per kolom tampil di header kolom"
+      ],
+      "rank": 3
+    },
+    {
+      "id": "PBI-003",
+      "epic": "EPIC-1",
+      "title": "Sebagai anggota tim, saya ingin memindahkan card antar kolom dengan drag and drop agar pembaruan status lebih efisien",
+      "priority": "Must",
+      "points": 5,
+      "sprint": 1,
+      "status": "To Do",
+      "owner": "Aryo",
+      "dependsOn": [
+        "PBI-002"
+      ],
+      "acceptance": [
+        "Card dapat dipindah ke kolom lain dengan drag and drop",
+        "Status baru tersimpan dan tercatat waktunya",
+        "Alumni Reviewer tidak dapat memindahkan card"
+      ],
+      "rank": 4
+    },
+    {
+      "id": "PBI-004",
+      "epic": "EPIC-1",
+      "title": "Sebagai anggota tim, saya ingin detail card (deskripsi, penanggung jawab, deadline, label divisi) agar tugas jelas",
+      "priority": "Must",
+      "points": 5,
+      "sprint": 1,
+      "status": "To Do",
+      "owner": "Ibra",
+      "dependsOn": [
+        "PBI-002"
+      ],
+      "acceptance": [
+        "Card memiliki judul, deskripsi, assignee, deadline, dan label divisi",
+        "Card lewat deadline diberi tanda merah",
+        "Filter card berdasarkan divisi dan assignee berfungsi"
+      ],
+      "rank": 5
+    },
+    {
+      "id": "PBI-005",
+      "epic": "EPIC-1",
+      "title": "Sebagai Product Owner, saya ingin halaman Product Backlog berurutan prioritas dengan Epic agar arah pengembangan jelas",
+      "priority": "Should",
+      "points": 5,
+      "sprint": 1,
+      "status": "To Do",
+      "owner": "Ibra",
+      "dependsOn": [
+        "PBI-004"
+      ],
+      "acceptance": [
+        "Item dikelompokkan per Epic dan diurutkan prioritas (MoSCoW)",
+        "Setiap item menampilkan poin dan sprint",
+        "Hanya PO yang dapat mengubah prioritas"
+      ],
+      "rank": 6
+    },
+    {
+      "id": "PBI-006",
+      "epic": "EPIC-1",
+      "title": "Sebagai Developer, saya ingin kerangka aplikasi (layout, navigasi, data awal) agar fitur lain punya fondasi yang sama",
+      "priority": "Must",
+      "points": 3,
+      "sprint": 1,
+      "status": "To Do",
+      "owner": "Dimas",
+      "dependsOn": [],
+      "acceptance": [
+        "Navigasi ke Board, Backlog, Telemetry, dan Vault tersedia",
+        "Data contoh awal termuat",
+        "Tampilan dapat dipakai di layar laptop dan HP"
+      ],
+      "rank": 1
+    },
+    {
+      "id": "PBI-007",
+      "epic": "EPIC-2",
+      "title": "Sebagai anggota tim atau alumni, saya ingin berkomentar pada card atau objektif agar masukan tercatat di tempat pekerjaan",
+      "priority": "Must",
+      "points": 5,
+      "sprint": 2,
+      "status": "To Do",
+      "owner": "Dimas",
+      "dependsOn": [
+        "PBI-004"
+      ],
+      "acceptance": [
+        "Komentar menampilkan nama, peran, dan waktu",
+        "Semua peran login dapat berkomentar",
+        "Pengguna dapat menghapus komentarnya sendiri",
+        "Jumlah komentar tampil di card"
+      ],
+      "rank": 7
+    },
+    {
+      "id": "PBI-008",
+      "epic": "EPIC-2",
+      "title": "Sebagai Alumni Reviewer, saya ingin memberi review (rating 1-5 dan catatan) pada hasil card yang selesai agar tim mendapat umpan balik",
+      "priority": "Must",
+      "points": 8,
+      "sprint": 2,
+      "status": "To Do",
+      "owner": "Ibra",
+      "dependsOn": [
+        "PBI-007"
+      ],
+      "acceptance": [
+        "Review hanya dapat dibuat pada card berstatus Review atau Done",
+        "Review berisi rating 1-5 dan catatan wajib",
+        "Satu reviewer satu review per card, dapat diedit",
+        "Rata-rata rating tampil di card"
+      ],
+      "rank": 8
+    },
+    {
+      "id": "PBI-009",
+      "epic": "EPIC-2",
+      "title": "Sebagai Product Owner, saya ingin kolom Review menunggu persetujuan PO atau mitra sebelum Done agar hasil tervalidasi",
+      "priority": "Should",
+      "points": 5,
+      "sprint": 2,
+      "status": "To Do",
+      "owner": "Ibra",
+      "dependsOn": [
+        "PBI-008"
+      ],
+      "acceptance": [
+        "Card di kolom Review punya tombol Setujui dan Minta Revisi",
+        "Hanya PO atau mitra yang dapat menyetujui",
+        "Keputusan beserta alasannya tercatat"
+      ],
+      "rank": 11
+    },
+    {
+      "id": "PBI-010",
+      "epic": "EPIC-3",
+      "title": "Sebagai PO, saya ingin checklist DoD tersedia di setiap card agar standar selesai seragam di seluruh item",
+      "priority": "Must",
+      "points": 5,
+      "sprint": 2,
+      "status": "To Do",
+      "owner": "Aryo",
+      "dependsOn": [
+        "PBI-004"
+      ],
+      "acceptance": [
+        "Checklist DoD umum (5 poin) otomatis tersedia di setiap card",
+        "Anggota tim dapat mencentang tiap poin checklist",
+        "Hanya PO yang dapat mengubah isi checklist DoD"
+      ],
+      "rank": 9
+    },
+    {
+      "id": "PBI-011",
+      "epic": "EPIC-3",
+      "title": "Sebagai Scrum Master, saya ingin card tidak dapat menjadi Done sebelum seluruh checklist DoD terpenuhi agar tidak ada hasil setengah jadi",
+      "priority": "Must",
+      "points": 5,
+      "sprint": 2,
+      "status": "To Do",
+      "owner": "Aryo",
+      "dependsOn": [
+        "PBI-010"
+      ],
+      "acceptance": [
+        "Perpindahan ke Done ditolak jika ada checklist belum centang",
+        "Pesan penolakan menyebut item yang belum terpenuhi",
+        "Siapa yang mencentang dan kapan tercatat"
+      ],
+      "rank": 10
+    },
+    {
+      "id": "PBI-012",
+      "epic": "EPIC-3",
+      "title": "Sebagai Developer, saya ingin menandai card bergantung pada card divisi lain agar hambatan terlihat",
+      "priority": "Should",
+      "points": 8,
+      "sprint": 2,
+      "status": "To Do",
+      "owner": "Dimas",
+      "dependsOn": [
+        "PBI-004"
+      ],
+      "acceptance": [
+        "Card dapat diberi dependensi ke card lain",
+        "Card yang menunggu card belum-Done ditandai Terblokir",
+        "Dependensi melingkar ditolak"
+      ],
+      "rank": 12
+    },
+    {
+      "id": "PBI-013",
+      "epic": "EPIC-4",
+      "title": "Sebagai Developer, saya ingin simulator MQTT berbasis Python yang menghasilkan telemetri palsu agar dashboard dapat dikembangkan tanpa menggunakan data rahasia tim",
+      "priority": "Must",
+      "points": 5,
+      "sprint": 3,
+      "status": "To Do",
+      "owner": "Aryo",
+      "dependsOn": [
+        "PBI-006"
+      ],
+      "acceptance": [
+        "Skrip menghasilkan data simulasi (tegangan, arus, kecepatan, jarak, daya, energi) dan menyimpannya",
+        "Seluruh data berlabel simulasi",
+        "Tidak ada data riil tim di repo"
+      ],
+      "rank": 13
+    },
+    {
+      "id": "PBI-014",
+      "epic": "EPIC-4",
+      "title": "Sebagai anggota tim atau alumni, saya ingin dashboard telemetri sederhana (kecepatan, tegangan, arus, daya, efisiensi) per run agar hasil mudah dibaca",
+      "priority": "Must",
+      "points": 8,
+      "sprint": 3,
+      "status": "To Do",
+      "owner": "Ibra",
+      "dependsOn": [
+        "PBI-013"
+      ],
+      "acceptance": [
+        "Grafik garis untuk kecepatan, tegangan, arus, dan daya",
+        "Ringkasan per run: jarak, energi, efisiensi km/kWh",
+        "Pengguna dapat memilih run yang ingin dilihat"
+      ],
+      "rank": 14
+    },
+    {
+      "id": "PBI-015",
+      "epic": "EPIC-4",
+      "title": "Sebagai Alumni Reviewer, saya ingin mereview dan mengomentari hasil run telemetri agar evaluasi performa mendapat masukan",
+      "priority": "Must",
+      "points": 5,
+      "sprint": 3,
+      "status": "To Do",
+      "owner": "Dimas",
+      "dependsOn": [
+        "PBI-014",
+        "PBI-008"
+      ],
+      "acceptance": [
+        "Setiap run punya kolom review dan komentar",
+        "Review run menampilkan rating, catatan, nama, dan waktu",
+        "Run baru otomatis muncul sebagai Menunggu Review"
+      ],
+      "rank": 15
+    },
+    {
+      "id": "PBI-016",
+      "epic": "EPIC-4",
+      "title": "Sebagai Scrum Master, saya ingin burndown chart sprint agar progres tim terlihat tanpa rekap manual",
+      "priority": "Should",
+      "points": 5,
+      "sprint": 3,
+      "status": "To Do",
+      "owner": "Aryo",
+      "dependsOn": [
+        "PBI-003"
+      ],
+      "acceptance": [
+        "Garis ideal dan aktual ditampilkan",
+        "Grafik terupdate saat card dipindah ke Done",
+        "Sprint dapat dipilih"
+      ],
+      "rank": 16
+    },
+    {
+      "id": "PBI-017",
+      "epic": "EPIC-2",
+      "title": "Sebagai anggota tim, saya ingin notifikasi saat ada komentar atau review baru agar tidak terlewat",
+      "priority": "Could",
+      "points": 3,
+      "sprint": 3,
+      "status": "To Do",
+      "owner": "Dimas",
+      "dependsOn": [
+        "PBI-008"
+      ],
+      "acceptance": [
+        "Pemilik card menerima notifikasi untuk komentar dan review baru",
+        "Notifikasi dapat ditandai sudah dibaca",
+        "Jumlah belum dibaca tampil di navigasi"
+      ],
+      "rank": 17
+    },
+    {
+      "id": "PBI-018",
+      "epic": "EPIC-5",
+      "title": "Sebagai anggota tim, saya ingin Knowledge Vault dengan kategori dan pencarian agar dokumen riset mudah ditemukan",
+      "priority": "Must",
+      "points": 8,
+      "sprint": 4,
+      "status": "To Do",
+      "owner": "Ibra",
+      "dependsOn": [
+        "PBI-001"
+      ],
+      "acceptance": [
+        "Kategori: Vehicle Dynamics, Body & Frame (CFD), Powertrain & Electrical, Programming, Fuel Cell Hidrogen, Riset Lainnya",
+        "Dokumen punya judul, penulis, tahun, tag, dan ringkasan",
+        "Pencarian berdasarkan judul dan tag berfungsi"
+      ],
+      "rank": 18
+    },
+    {
+      "id": "PBI-019",
+      "epic": "EPIC-5",
+      "title": "Sebagai anggota baru, saya ingin data contoh Vault (paper, referensi, hasil riset fiktif) agar fitur dapat dicoba",
+      "priority": "Should",
+      "points": 5,
+      "sprint": 4,
+      "status": "To Do",
+      "owner": "Dimas",
+      "dependsOn": [
+        "PBI-018"
+      ],
+      "acceptance": [
+        "Minimal 3 dokumen contoh per kategori",
+        "Termasuk data fuel cell hidrogen fiktif",
+        "Seluruh data berlabel fiktif"
+      ],
+      "rank": 20
+    },
+    {
+      "id": "PBI-020",
+      "epic": "EPIC-5",
+      "title": "Sebagai anggota baru, saya ingin modul onboarding dan arsip evaluasi (retrospective, lessons learned) agar regenerasi ilmu lancar",
+      "priority": "Should",
+      "points": 5,
+      "sprint": 4,
+      "status": "To Do",
+      "owner": "Aryo",
+      "dependsOn": [
+        "PBI-018"
+      ],
+      "acceptance": [
+        "Halaman modul belajar berurutan per divisi",
+        "Catatan retrospective dapat diarsipkan beserta action item",
+        "Status action item (Open/Done) dapat diubah"
+      ],
+      "rank": 19
+    },
+    {
+      "id": "PBI-021",
+      "epic": "EPIC-5",
+      "title": "Sebagai Product Owner, saya ingin uji end-to-end dan perbaikan bug agar platform stabil sebelum dipakai mitra",
+      "priority": "Must",
+      "points": 5,
+      "sprint": 4,
+      "status": "To Do",
+      "owner": "Aryo",
+      "dependsOn": [
+        "PBI-011",
+        "PBI-015",
+        "PBI-018"
+      ],
+      "acceptance": [
+        "Alur buat card, DoD, review alumni, Done lulus diuji",
+        "Tidak ada bug kritis terbuka",
+        "Hasil uji terdokumentasi"
+      ],
+      "rank": 21
+    },
+    {
+      "id": "PBI-022",
+      "epic": "EPIC-5",
+      "title": "Sebagai anggota Antasena, saya ingin panduan pengguna dan rollout agar dapat langsung memakai platform",
+      "priority": "Should",
+      "points": 3,
+      "sprint": 4,
+      "status": "To Do",
+      "owner": "Dimas",
+      "dependsOn": [
+        "PBI-021"
+      ],
+      "acceptance": [
+        "Panduan per peran tersedia di repo",
+        "Demo ke mitra terlaksana pada Sprint Review",
+        "Spreadsheet lama diarsipkan"
+      ],
+      "rank": 22
+    }
+  ],
+  "sprintGoals": {
+    "1": "Tim dapat membuat, memindahkan, dan melihat detail card pada papan Kanban setelah login dengan peran masing-masing.",
+    "2": "Alumni dan mitra dapat berkomentar dan mereview hasil card, dan card tidak dapat menjadi Done sebelum DoD terpenuhi.",
+    "3": "Hasil run telemetri simulasi tampil pada dashboard dan dapat direview, serta progres sprint terlihat pada burndown chart.",
+    "4": "Knowledge Vault dapat dipakai, platform lolos uji end-to-end, dan siap diserahkan kepada Antasena."
+  }
 }
