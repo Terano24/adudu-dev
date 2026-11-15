@@ -1,4 +1,22 @@
-node_modules
-dist
+# Dependencies & Build
+node_modules/
+dist/
+dist-ssr/
+
+# Environment Variables
 .env
+.env.local
+.env.*.local
+
+# Logs & OS Files
+*.log
+npm-debug.log*
 .DS_Store
+Thumbs.db
+
+# Local AI Agent & Skills Tooling
+.agent/
+.agents/
+anti-slop/
+AGENTS.md
+skills-lock.json

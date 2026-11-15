@@ -1,1 +1,1 @@
-// Helper umum
+export * from './permissions.js'

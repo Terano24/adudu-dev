@@ -1,10 +1,9 @@
-import data from '../data/backlog.json'
+import { SEED_BACKLOG } from '../data/seedData.js'
 
-// Sprint 1: data lokal (JSON). Ganti dengan API/database saat backend siap.
 export async function getBacklog() {
-  return data.items
+  return SEED_BACKLOG.items
 }
 
 export async function getEpics() {
-  return data.epics
+  return SEED_BACKLOG.epics
 }

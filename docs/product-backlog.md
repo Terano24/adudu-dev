@@ -1,8 +1,14 @@
 # Product Backlog: SenaFlow
 
+<<<<<<< Updated upstream
 **Mitra:** Antasena Team ITS
 **Kelompok:** Kelompok 6 (MPT A)
 **Visi:** Platform manajemen proyek Agile untuk Antasena Team ITS. Platform ini menyediakan papan Kanban yang dapat direview oleh alumni dan mitra, dashboard telemetri hasil uji jalan, serta Knowledge Vault untuk menjaga kesinambungan ilmu antargenerasi.
+=======
+**Product:** Antasena Unified Agile & Telemetry Platform
+**Product Owner:** Product Owner Antasena
+**Visi:** Mengganti spreadsheet manual dengan platform terpusat untuk mengelola papan Kanban, review alumni, standar Definition of Done, monitoring telemetri kendaraan, serta repositori riset tim.
+>>>>>>> Stashed changes
 
 > File ini dibuat otomatis dari src/data/backlog.json. Ubah datanya di JSON, lalu jalankan `node scripts/gen-backlog-doc.mjs`.
 
@@ -32,6 +38,7 @@
 - [ ] Disetujui Product Owner atau mitra
 
 ## Ringkasan Epic
+<<<<<<< Updated upstream
 | ID | Epic | Tujuan |
 |----|------|--------|
 | EPIC-1 | Kanban Board & Product Backlog | Pekerjaan dan prioritas Antasena tervisualisasi di papan, menggantikan spreadsheet dan broadcast WhatsApp |
@@ -103,6 +110,81 @@ Sebagai anggota tim, saya ingin login dengan peran (Admin/PO, Anggota Tim, Alumn
 
 #### No 3: PBI-002 (Must, 8 poin, Sprint 1, dipilih)
 Sebagai Developer, saya ingin papan Kanban dengan kolom To Do, In Progress, Review, Done agar status pekerjaan dapat dipantau dengan jelas
+=======
+| ID | Epic | Tujuan | Sprint |
+|----|------|--------|--------|
+| EPIC-1 | Core Kanban Board, Auth & Backlog Foundation | Fondasi aplikasi, autentikasi berbasis peran, papan Kanban interaktif, dan halaman Product Backlog tersedia | 1 |
+| EPIC-2 | Review Workflow, DoD Gatekeeper & Dependencies | Kualitas hasil tervalidasi melalui review alumni, persetujuan PO/mitra, checklist DoD wajib, dan pelacakan dependensi | 2 |
+| EPIC-3 | Vehicle Telemetry Simulator, Dashboard & Metrics | Data telemetri kendaraan tersimulasi dan tervisualisasi, dilengkapi burndown chart serta notifikasi real-time | 3 |
+| EPIC-4 | Knowledge Vault, Onboarding & Platform Rollout | Repositori riset tim, modul onboarding, dan evaluasi arsip siap digunakan seluruh anggota dan mitra | 4 |
+
+## Ringkasan Item
+| ID | Epic | Prioritas | Poin | Sprint | Status | Dependensi |
+|----|------|-----------|------|--------|--------|------------|
+| PBI-001 | EPIC-1 | Must | 5 | 1 | To Do | PBI-006 |
+| PBI-002 | EPIC-1 | Must | 8 | 1 | To Do | PBI-006 |
+| PBI-003 | EPIC-1 | Must | 5 | 1 | To Do | PBI-001, PBI-002 |
+| PBI-004 | EPIC-1 | Must | 5 | 1 | To Do | PBI-002 |
+| PBI-005 | EPIC-1 | Should | 5 | 1 | To Do | PBI-001, PBI-006 |
+| PBI-006 | EPIC-1 | Must | 5 | 1 | To Do | - |
+| PBI-007 | EPIC-2 | Must | 5 | 2 | To Do | PBI-001, PBI-004 |
+| PBI-008 | EPIC-2 | Must | 5 | 2 | To Do | PBI-001, PBI-002 |
+| PBI-009 | EPIC-2 | Should | 5 | 2 | To Do | PBI-003, PBI-008 |
+| PBI-010 | EPIC-2 | Must | 5 | 2 | To Do | PBI-001, PBI-004 |
+| PBI-011 | EPIC-2 | Must | 5 | 2 | To Do | PBI-003, PBI-010 |
+| PBI-012 | EPIC-2 | Should | 5 | 2 | To Do | PBI-004 |
+| PBI-013 | EPIC-3 | Must | 8 | 3 | To Do | - |
+| PBI-014 | EPIC-3 | Must | 8 | 3 | To Do | PBI-006, PBI-013 |
+| PBI-015 | EPIC-3 | Must | 5 | 3 | To Do | PBI-001, PBI-014 |
+| PBI-016 | EPIC-3 | Must | 5 | 3 | To Do | PBI-005, PBI-011 |
+| PBI-017 | EPIC-3 | Must | 5 | 3 | To Do | PBI-007, PBI-008, PBI-015 |
+| PBI-018 | EPIC-4 | Should | 5 | 4 | To Do | PBI-006 |
+| PBI-019 | EPIC-4 | Should | 3 | 4 | To Do | PBI-018 |
+| PBI-020 | EPIC-4 | Should | 5 | 4 | To Do | PBI-006 |
+| PBI-021 | EPIC-4 | Must | 5 | 4 | To Do | PBI-011, PBI-015, PBI-020 |
+| PBI-022 | EPIC-4 | Should | 3 | 4 | To Do | PBI-021 |
+
+**Total poin per sprint:** Sprint 1: 33 | Sprint 2: 30 | Sprint 3: 31 | Sprint 4: 21
+
+## Rincian Item
+
+### EPIC-1: Core Kanban Board, Auth & Backlog Foundation
+
+#### PBI-001 (Must, 5 poin, Sprint 1)
+Sebagai anggota tim, saya ingin login dengan peran (Admin/PO, Anggota Tim, Alumni Reviewer) agar akses sesuai tugas saya
+
+- Divisi: Semua
+- Dependensi: PBI-006
+- Acceptance criteria:
+  - [ ] Pengguna dapat login dan logout dengan akun terdaftar
+  - [ ] Tiga peran tersedia: Admin/PO, Anggota Tim, Alumni Reviewer
+  - [ ] Alumni Reviewer tidak dapat membuat atau menghapus card
+  - [ ] Halaman terlarang menampilkan pesan
+
+#### PBI-002 (Must, 8 poin, Sprint 1)
+Sebagai Developer, saya ingin papan Kanban dengan kolom To Do, In Progress, Review, Done agar status pekerjaan dapat dipantau dengan jelas
+
+- Divisi: Programming
+- Dependensi: PBI-006
+- Acceptance criteria:
+  - [ ] Papan menampilkan 4 kolom
+  - [ ] Card dapat dibuat, diubah, dan dihapus
+  - [ ] Data card tetap ada setelah halaman di-refresh
+  - [ ] Jumlah card per kolom tampil di header kolom
+
+#### PBI-003 (Must, 5 poin, Sprint 1)
+Sebagai anggota tim, saya ingin memindahkan card antar kolom dengan drag and drop agar pembaruan status lebih efisien
+
+- Divisi: Semua
+- Dependensi: PBI-001, PBI-002
+- Acceptance criteria:
+  - [ ] Card dapat dipindah ke kolom lain dengan drag and drop
+  - [ ] Status baru tersimpan dan tercatat waktunya
+  - [ ] Alumni Reviewer tidak dapat memindahkan card
+
+#### PBI-004 (Must, 5 poin, Sprint 1)
+Sebagai anggota tim, saya ingin detail card (deskripsi, penanggungjawab, deadline, label divisi) agar tugas jelas
+>>>>>>> Stashed changes
 
 - Pemegang: Aryo
 - Dependensi: PBI-006
@@ -118,6 +200,7 @@ Sebagai anggota tim, saya ingin memindahkan card antar kolom dengan drag and dro
 - Pemegang: Aryo
 - Dependensi: PBI-002
 - Acceptance criteria:
+<<<<<<< Updated upstream
   - [ ] Card dapat dipindah ke kolom lain dengan drag and drop
   - [ ] Status baru tersimpan dan tercatat waktunya
   - [ ] Alumni Reviewer tidak dapat memindahkan card
@@ -160,12 +243,57 @@ Sebagai Alumni Reviewer, saya ingin memberi review (rating 1-5 dan catatan) pada
 
 - Pemegang: Ibra
 - Dependensi: PBI-007
+=======
+  - [ ] Card memiliki judul, deskripsi, assignee, deadline, dan label divisi
+  - [ ] Card lewat deadline diberi tanda merah
+  - [ ] Filter card berdasarkan divisi dan assigned berfungsi
+
+#### PBI-005 (Should, 5 poin, Sprint 1)
+Sebagai Product Owner, saya ingin halaman Product Backlog berurutan prioritas dengan Epic agar arah pengembangan jelas
+
+- Divisi: Product
+- Dependensi: PBI-001, PBI-006
+- Acceptance criteria:
+  - [ ] Item dikelompokkan per Epic dan diurutkan prioritas (MoSCoW)
+  - [ ] Setiap item menampilkan poin dan sprint
+  - [ ] Hanya PO yang dapat mengubah prioritas
+
+#### PBI-006 (Must, 5 poin, Sprint 1)
+Sebagai Developer, saya ingin kerangka aplikasi (layout, navigasi, data awal) agar fitur lain punya fondasi yang sama
+
+- Divisi: Programming
+- Dependensi: -
+- Acceptance criteria:
+  - [ ] Navigasi ke Board, Backlog, Telemetry, Vault tersedia
+  - [ ] Data contoh awal termuat
+  - [ ] Tampilan dapat dipakai di layar laptop dan HP
+
+### EPIC-2: Review Workflow, DoD Gatekeeper & Dependencies
+
+#### PBI-007 (Must, 5 poin, Sprint 2)
+Sebagai anggota tim atau alumni, saya ingin berkomentar pada card atau objektif agar masukan tercatat di tempat pekerjaan
+
+- Divisi: Semua
+- Dependensi: PBI-001, PBI-004
+- Acceptance criteria:
+  - [ ] Komentar menampilkan nama, peran, dan waktu
+  - [ ] Semua peran login dapat berkomentar
+  - [ ] Pengguna dapat menghapus komentarnya sendiri
+  - [ ] Jumlah komentar tampil di card
+
+#### PBI-008 (Must, 5 poin, Sprint 2)
+Sebagai Alumni Reviewer, saya ingin memberi review (rating 1-5 dan catatan) pada hasil card yang selesai agar tim mendapat umpan balik
+
+- Divisi: Alumni Reviewer
+- Dependensi: PBI-001, PBI-002
+>>>>>>> Stashed changes
 - Acceptance criteria:
   - [ ] Review hanya dapat dibuat pada card berstatus Review atau Done
   - [ ] Review berisi rating 1-5 dan catatan wajib
   - [ ] Satu reviewer satu review per card, dapat diedit
   - [ ] Rata-rata rating tampil di card
 
+<<<<<<< Updated upstream
 #### No 11: PBI-009 (Should, 5 poin, Sprint 2)
 Sebagai Product Owner, saya ingin kolom Review menunggu persetujuan PO atau mitra sebelum Done agar hasil tervalidasi
 
@@ -311,3 +439,155 @@ Sebagai anggota Antasena, saya ingin panduan pengguna dan rollout agar dapat lan
   - [ ] Panduan per peran tersedia di repo
   - [ ] Demo ke mitra terlaksana pada Sprint Review
   - [ ] Spreadsheet lama diarsipkan
+=======
+#### PBI-009 (Should, 5 poin, Sprint 2)
+Sebagai Product Owner, saya ingin kolom Review menunggu persetujuan PO atau mitra sebelum Done agar hasil tervalidasi
+
+- Divisi: Product
+- Dependensi: PBI-003, PBI-008
+- Acceptance criteria:
+  - [ ] Card di kolom Review punya tombol Setujui dan Minta Revisi
+  - [ ] Hanya PO atau mitra yang dapat menyetujui
+  - [ ] Keputusan beserta alasannya tercatat
+
+#### PBI-010 (Must, 5 poin, Sprint 2)
+Sebagai PO, saya ingin checklist DoD tersedia di setiap card agar standar selesai seragam di seluruh item
+
+- Divisi: Product
+- Dependensi: PBI-001, PBI-004
+- Acceptance criteria:
+  - [ ] Checklist DoD umum (5 poin) otomatis tersedia di setiap card
+  - [ ] Anggota tim dapat mencentang tiap poin checklist
+  - [ ] Hanya PO yang dapat mengubah isi checklist DoD
+
+#### PBI-011 (Must, 5 poin, Sprint 2)
+Sebagai Scrum Master, saya ingin card tidak dapat menjadi Done sebelum seluruh checklist DoD terpenuhi agar tidak ada hasil setengah jadi
+
+- Divisi: Semua
+- Dependensi: PBI-003, PBI-010
+- Acceptance criteria:
+  - [ ] Perpindahan ke Done ditolak jika ada checklist belum centang
+  - [ ] Pesan penolakan menyebut item yang belum terpenuhi
+  - [ ] Siapa yang mencentang dan kapan tercatat
+
+#### PBI-012 (Should, 5 poin, Sprint 2)
+Sebagai Developer, saya ingin menandai card bergantung pada card divisi lain agar hambatan terlihat
+
+- Divisi: Semua
+- Dependensi: PBI-004
+- Acceptance criteria:
+  - [ ] Card dapat diberi dependensi ke card lain
+  - [ ] Card yang menunggu card belum-Done ditandai Terblokir
+  - [ ] Dependensi melingkar ditolak
+
+### EPIC-3: Vehicle Telemetry Simulator, Dashboard & Metrics
+
+#### PBI-013 (Must, 8 poin, Sprint 3)
+Sebagai Developer, saya ingin simulator MQTT berbasis Python yang menghasilkan telemetri palsu agar dashboard dapat dikembangkan tanpa menggunakan data rahasia tim
+
+- Divisi: Programming
+- Dependensi: -
+- Acceptance criteria:
+  - [ ] Skrip menghasilkan data simulasi (tegangan, arus, kecepatan, jarak, daya, energi) dan menyimpannya
+  - [ ] Seluruh data berlabel simulasi
+  - [ ] Tidak ada data riil tim di repo
+
+#### PBI-014 (Must, 8 poin, Sprint 3)
+Sebagai anggota tim atau alumni, saya ingin dashboard telemetri sederhana (kecepatan, tegangan, arus, daya, efisiensi) per run agar hasil mudah dibaca
+
+- Divisi: Semua
+- Dependensi: PBI-006, PBI-013
+- Acceptance criteria:
+  - [ ] Grafik garis untuk kecepatan, tegangan, arus, dan daya
+  - [ ] Ringkasan per run: jarak, energi, efisiensi km/kWh
+  - [ ] Pengguna dapat memilih run yang ingin dilihat
+
+#### PBI-015 (Must, 5 poin, Sprint 3)
+Sebagai Alumni Reviewer, saya ingin mereview dan mengomentari hasil run telemetri agar evaluasi performa mendapat masukan
+
+- Divisi: Alumni Reviewer
+- Dependensi: PBI-001, PBI-014
+- Acceptance criteria:
+  - [ ] Setiap run punya kolom review dan komentar
+  - [ ] Review run menampilkan rating, catatan, nama, dan waktu
+  - [ ] Run baru otomatis muncul sebagai menunggu Review
+
+#### PBI-016 (Must, 5 poin, Sprint 3)
+Sebagai Scrum Master, saya ingin burndown chart sprint agar progres tim terlihat tanpa rekap manual
+
+- Divisi: Semua
+- Dependensi: PBI-005, PBI-011
+- Acceptance criteria:
+  - [ ] Garis ideal dan aktual ditampilkan
+  - [ ] Grafik terupdate saat card dipindah ke Done
+  - [ ] Sprint dapat dipilih
+
+#### PBI-017 (Must, 5 poin, Sprint 3)
+Sebagai anggota tim, saya ingin notifikasi saat ada komentar atau review baru agar tidak terlewat
+
+- Divisi: Semua
+- Dependensi: PBI-007, PBI-008, PBI-015
+- Acceptance criteria:
+  - [ ] Pemilik card menerima notifikasi untuk komentar dan review baru
+  - [ ] Notifikasi dapat ditandai sudah dibaca
+  - [ ] Jumlah belum dibaca tampil di navigasi
+
+### EPIC-4: Knowledge Vault, Onboarding & Platform Rollout
+
+#### PBI-018 (Should, 5 poin, Sprint 4)
+Sebagai anggota tim, saya ingin Knowledge Vault dengan kategori dan pencarian agar dokumen riset mudah ditemukan
+
+- Divisi: Semua
+- Dependensi: PBI-006
+- Acceptance criteria:
+  - [ ] Kategori: Vehicle Dynamics, Body & Frame (CFD), Powertrain & Electrical, Programming, Fuel Cell Hidrogen, Riset Lainnya
+  - [ ] Dokumen punya judul, penulis, tahun, tag, dan ringkasan
+  - [ ] Pencarian berdasarkan judul dan tag berfungsi
+
+#### PBI-019 (Should, 3 poin, Sprint 4)
+Sebagai anggota baru, saya ingin data contoh Vault (paper, referensi, hasil riset fiktif) agar fitur dapat dicoba
+
+- Divisi: Semua
+- Dependensi: PBI-018
+- Acceptance criteria:
+  - [ ] Minimal 3 dokumen contoh per kategori
+  - [ ] Termasuk data fuel cell hidrogen fiktif
+  - [ ] Seluruh data berlabel fiktif
+
+#### PBI-020 (Should, 5 poin, Sprint 4)
+Sebagai anggota baru, saya ingin modul onboarding dan arsip evaluasi (retrospective, lessons learned) agar regenerasi ilmu lancar
+
+- Divisi: Semua
+- Dependensi: PBI-006
+- Acceptance criteria:
+  - [ ] Halaman modul belajar berurutan per divisi
+  - [ ] Catatan retrospective dapat diarsipkan beserta action item
+  - [ ] Status action item (Open/Done) dapat diubah
+
+#### PBI-021 (Must, 5 poin, Sprint 4)
+Sebagai Product Owner, saya ingin uji end-to-end dan perbaikan bug agar platform stabil sebelum dipakai mitra
+
+- Divisi: QA
+- Dependensi: PBI-011, PBI-015, PBI-020
+- Acceptance criteria:
+  - [ ] Alur buat card, DoD, review alumni, Done lulus diuji
+  - [ ] Tidak ada bug kritis terbuka
+  - [ ] Hasil uji terdokumentasi
+
+#### PBI-022 (Should, 3 poin, Sprint 4)
+Sebagai anggota Antasena, saya ingin panduan pengguna dan rollout agar dapat langsung memakai platform
+
+- Divisi: Semua
+- Dependensi: PBI-021
+- Acceptance criteria:
+  - [ ] Panduan per peran tersedia di repo
+  - [ ] Demo ke mitra terlaksana pada Sprint Review
+  - [ ] Spreadsheet lama diarsipkan
+
+## Definition of Done (umum)
+- [ ] Acceptance criteria terpenuhi
+- [ ] Kode di-review dan di-merge ke main
+- [ ] Diuji dan tanpa bug kritis
+- [ ] Dokumentasi diperbarui
+- [ ] Disetujui Product Owner
+>>>>>>> Stashed changes

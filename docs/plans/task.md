@@ -1,0 +1,23 @@
+| Task | Status | Details |
+|---|---|---|
+| Task 1: Theme & Taste-Skill Design System Tokens & Base Styles | Done | Implemented ThemeContext and CSS variables for Dark/Light racing telemetry theme in src/index.css |
+| Task 2: Auth Context, Roles, Capabilities (RBAC) & Protected Routes | Done | Implemented AuthContext (3 roles, can() evaluator), ProtectedRoute, and AccessDenied component |
+| Task 3: Responsive Application Shell (Header, Navigation & Mobile Drawer) | Done | Built AppShell, Navbar, and MobileNav with touch targets >= 44px and equal edges |
+| Task 4: Login Page with 3-Role Quick Login | Done | Built LoginPage with 1-click Quick Login for Admin/PO, Anggota Tim, Alumni Reviewer |
+| Task 5: Data Seeding & Unified Data Service | Done | Implemented seedData.js, DataContext with localStorage persistence |
+| Task 6: Four Primary Module Pages (Board, Backlog, Telemetry, Vault) | Done | Built BoardPage (4 columns, RBAC guards), updated BacklogPage, built TelemetryPage, built VaultPage |
+| Task 7: Routing Assembly, App.jsx Integration & Build Verification | Done | Wired App.jsx with protected routes, npm run build passed with 0 errors, verify-sprint1.mjs passed 100% |
+| Task 8: Antislop Audit & Engineering UI Polish | Done | Removed emojis, stale glows & purple/neon gradients, added tabular-nums, concise operational copywriting, verified sprint 1 & build |
+| Task 9: Login UI Refactor (Baseline-UI & Motion) | Done | Glassmorphism, subtle depth & telemetry borders, role card hover motion, telemetry typography, interactive CTA button with active press state |
+| Task 10: Anti-Slop & UI-Skills Refinement Pass | Done | Removed colored glow shadows on hover, subtle border opacity & translate-y motion, translucent-to-solid input focus transition, navbar micro-interactions, responsive flex/grid transitions |
+| Task 11: F1 Telemetry Asymmetric Redesign for LoginPage | Done | Built asymmetric full-bleed cockpit with Falcon 2.0 image, gradient scrim, left HUD telemetry strip, modular LoginForm in src/features/auth, glassmorphic right panel with ui-skills hover lift |
+| Task 12: Official Antasena Livery Palette & Theme Refactor | Done | Configured aero-white, carbon-obsidian, antasena-purple, glacier-steel, graphite-tint, apex-yellow; updated Dark/Light theme rules, scrim overlays, and role badges |
+| Task 13: Semantic Color Mapping & High-Contrast Scrim Refactor | Done | Implemented strict Dark/Light semantic mapping, multi-layer 60% scrim over car with directional gradients, high-contrast role badges (purple with aero-white, yellow with carbon-obsidian), solid cyan CTA with maximum text contrast |
+| Task 14: Standard Username & Password Authentication Refactor | Done | Refactored AuthContext and LoginForm to standard username/password flow with static credentials (admin/admin, anggota/anggota, alumni/alumni), error handling banner, eye toggle for password, remember me checkbox, and Antasena purple focus styling |
+| Task 15: Telemetry HUD Navbar & AppShell Paddock Ticker | Done | GT Sport Telemetry HUD Navbar with vehicle widget, hairline dividers, tabular telemetry stats, bold purple active tabs, and Paddock bottom ticker bar |
+| Task 16: Gran Turismo Stage-Card Kanban Board | Done | Stage card Kanban columns (STAGE 01-04) with photo banners, class counters, telemetry spec rows, and elevated task cards with priority livery borders |
+| Task 17: Paddock HUD Backlog, Telemetry Cockpit & Knowledge Vault Alignment | Done | Backlog telemetry table, Telemetry Cockpit gauges, Knowledge Vault directory, ui-skills micro-interactions, antislop audit & build verification |
+| Task 18: Global Team Background & Translucent HUD Surfaces | Done | Global background /images/BG.jpeg in MainLayout/AppShell with dual-theme ambient overlay, translucent HUD surfaces with backdrop blur, and high contrast typography |
+| Task 19: Telemetry HUD Navbar Restoration & Defensive Alignment | Done | Restored GT Telemetry HUD markup in Navbar.jsx, added responsive media queries, and added backward-compatible CSS fallbacks |
+| Task 20: Codebase Refactor & Performance Optimization (CSS Vars, GPU Overdraw, React.lazy, Memoization) | Done | Centralized theme CSS variables, removed nested backdrop-blur for GPU optimization, applied React.lazy/Suspense code-splitting, useMemo/useCallback/React.memo memoization, and created reusable badge components |
+| Task 21: Ponytail Architectural Modularization (Reusable UI Components, useLocalStorage Hook, Centralized Permissions, Atomic Decomposition) | Done | Extracted HudPanel, StatusBadge, FormInput, ActionButton, KanbanColumn, BacklogEpicSection, created useLocalStorage hook, centralized RBAC in permissions.js, and zero-error verification |
