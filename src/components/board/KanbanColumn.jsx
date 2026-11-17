@@ -1,80 +1,88 @@
-import React from 'react'
+import React, { useState } from 'react'
 import KanbanCard from './KanbanCard.jsx'
+
+const COLUMN_THEMES = {
+  'To Do': {
+    slug: 'todo',
+    dotColor: '#94A3B8',
+  },
+  'In Progress': {
+    slug: 'inprogress',
+    dotColor: '#3B82F6',
+  },
+  'Review': {
+    slug: 'review',
+    dotColor: '#F59E0B',
+  },
+  'Done': {
+    slug: 'done',
+    dotColor: '#10B981',
+  },
+}
 
 const KanbanColumn = React.memo(function KanbanColumn({
   colName,
   colCards,
-  conf,
   totalPoints,
   canMove,
   canDelete,
   onMove,
   onDelete,
+  onOpenDetail,
 }) {
+  const [isDragOver, setIsDragOver] = useState(false)
+  const theme = COLUMN_THEMES[colName] || { slug: 'todo', dotColor: '#94A3B8' }
+
+  const handleDragOver = (e) => {
+    e.preventDefault()
+    e.dataTransfer.dropEffect = canMove ? 'move' : 'none'
+    setIsDragOver(true)
+  }
+
+  const handleDragLeave = (e) => {
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      setIsDragOver(false)
+    }
+  }
+
+  const handleDrop = (e) => {
+    e.preventDefault()
+    setIsDragOver(false)
+    const cardId = e.dataTransfer.getData('text/plain')
+    if (cardId) {
+      onMove(cardId, null, colName)
+    }
+  }
+
   return (
-    <div className="kanban-column gt-stage-column">
-      {/* Visual Header Banner per Kolom */}
-      <div className="stage-banner-wrap">
-        <img
-          src={conf.image}
-          alt={conf.title}
-          className="stage-banner-img"
-          style={{ objectPosition: conf.objectPosition }}
-          loading="lazy"
-          decoding="async"
-        />
-        <div className="stage-banner-scrim" />
-
-        {/* Top Stage Bar: Pill & Code */}
-        <div className="stage-banner-top">
-          <span className="stage-pill">
-            <span className="stage-pill-dot" />
-            <span>{conf.stage}</span>
-          </span>
-          <span className="stage-code-tag font-mono">{conf.code}</span>
+    <div
+      className={`modern-kanban-column kanban-column col-theme-${theme.slug} ${
+        isDragOver ? 'column-drag-over' : ''
+      }`}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+    >
+      {/* Column Header */}
+      <div className="modern-column-header">
+        <div className="column-title-left">
+          <span
+            className="column-dot-indicator"
+            style={{ backgroundColor: theme.dotColor }}
+            aria-hidden="true"
+          />
+          <h2 className="column-title-text">{colName}</h2>
         </div>
 
-        {/* Big Stage Title & Class-Style Card Counter */}
-        <div className="stage-banner-body">
-          <div className="stage-banner-title-wrap">
-            <span className="stage-sub-status font-mono">{conf.statusText}</span>
-            <h2 className="stage-title">{conf.title}</h2>
-          </div>
-          <div className="stage-class-counter">
-            <span className="stage-counter-val font-mono">
-              {colCards.length < 10 ? `0${colCards.length}` : colCards.length}
-            </span>
-            <span className="stage-counter-unit font-mono">CRD</span>
-          </div>
+        <div className="column-count-badge">
+          <span>{colCards.length}</span>
         </div>
       </div>
 
-      {/* Telemetry Spec Row Kolom (border-y) */}
-      <div className="stage-spec-row font-mono">
-        <div className="stage-spec-item">
-          <span className="stage-spec-label">TOTAL LOAD</span>
-          <span className="stage-spec-val font-bold">{totalPoints} PT</span>
-        </div>
-        <div className="stage-spec-divider" />
-        <div className="stage-spec-item">
-          <span className="stage-spec-label">TASKS</span>
-          <span className="stage-spec-val font-bold">{colCards.length}</span>
-        </div>
-      </div>
-
-      {/* Column Header fallback for compatibility */}
-      <div className="column-header visually-hidden">
-        <div className="column-title">
-          <span>{colName}</span>
-          <span className="column-count">{colCards.length}</span>
-        </div>
-      </div>
-
-      {/* Cards List */}
-      <div className="column-cards-list gt-cards-list">
+      {/* Column Cards List */}
+      <div className="modern-column-body column-cards-list">
         {colCards.length === 0 ? (
-          <div className="empty-column-box gt-empty-box">
-            <span className="empty-box-icon">--</span>
+          <div className="empty-column-placeholder">
             <span>Belum ada card di tahap ini</span>
           </div>
         ) : (
@@ -86,6 +94,7 @@ const KanbanColumn = React.memo(function KanbanColumn({
               canDelete={canDelete}
               onMove={onMove}
               onDelete={onDelete}
+              onOpenDetail={onOpenDetail}
             />
           ))
         )}

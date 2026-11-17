@@ -4,7 +4,7 @@ import { useLocalStorage } from '../hooks/index.js'
 const ThemeContext = createContext()
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useLocalStorage('antasena_theme', 'dark')
+  const [theme, setTheme] = useLocalStorage('antasena_theme', 'light')
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)

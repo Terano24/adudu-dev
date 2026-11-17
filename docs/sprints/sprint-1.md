@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 # Sprint 1 (Minggu 1)
 
 Sprint Goal: Tim dapat membuat, memindahkan, dan melihat detail card pada papan Kanban setelah login dengan peran masing-masing.
@@ -11,9 +10,3 @@ Total: 34 poin
 - [ ] PBI-003 Sebagai anggota tim, saya ingin memindahkan card antar kolom dengan drag and drop agar pembaruan status lebih efisien (5 poin, Aryo)
 - [ ] PBI-004 Sebagai anggota tim, saya ingin detail card (deskripsi, penanggung jawab, deadline, label divisi) agar tugas jelas (5 poin, Ibra)
 - [ ] PBI-005 Sebagai Product Owner, saya ingin halaman Product Backlog berurutan prioritas dengan Epic agar arah pengembangan jelas (5 poin, Ibra)
-=======
-# Sprint 1 (Minggu 1): Core Backlog Architecture & Data Structure
-- [ ] Struktur data & database schema Product Backlog dan Sprint Backlog
-- [ ] Modul CRUD epics, user stories, tasks per divisi
-- [ ] Roles dan permissions per divisi
->>>>>>> Stashed changes

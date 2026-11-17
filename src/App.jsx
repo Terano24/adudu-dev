@@ -4,6 +4,7 @@ import { ThemeProvider } from './context/ThemeContext.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
 import { DataProvider } from './context/DataContext.jsx'
 import ProtectedRoute from './components/common/ProtectedRoute.jsx'
+import LoadingScreen from './components/common/LoadingScreen.jsx'
 import MainLayout from './components/layout/MainLayout.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 
@@ -13,21 +14,12 @@ const BacklogPage = lazy(() => import('./pages/BacklogPage.jsx'))
 const TelemetryPage = lazy(() => import('./pages/TelemetryPage.jsx'))
 const VaultPage = lazy(() => import('./pages/VaultPage.jsx'))
 
-function TelemetryLoadingFallback() {
-  return (
-    <div className="hud-suspense-container">
-      <div className="hud-loading-spinner" aria-hidden="true" />
-      <span className="hud-suspense-label">MEMUAT MODUL TELEMETRI...</span>
-    </div>
-  )
-}
-
 export default function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
         <DataProvider>
-          <Suspense fallback={<TelemetryLoadingFallback />}>
+          <Suspense fallback={<LoadingScreen message="Memuat modul sistem..." />}>
             <Routes>
               {/* Public Auth Route */}
               <Route path="/login" element={<LoginPage />} />
