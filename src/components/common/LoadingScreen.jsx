@@ -9,23 +9,19 @@ export default function LoadingScreen({ message = 'Memuat modul sistem...' }) {
       <div className="loading-card-box">
         {/* Animated Brand Logo with Dual Spinning Halo */}
         <div className="loading-logo-wrap">
-          <svg
-            className="loading-brand-svg"
-            width="44"
-            height="44"
-            viewBox="0 0 40 40"
-            fill="none"
+          <img
+            src="/images/senaflow-mark.png"
+            alt="SenaFlow"
+            className="loading-brand-img"
+            style={{ width: '48px', height: 'auto', objectFit: 'contain' }}
             aria-hidden="true"
-          >
-            <path d="M20 4L4 32H13L20 18L27 32H36L20 4Z" fill="#2563EB" />
-            <path d="M20 18L15 28H25L20 18Z" fill="#60A5FA" />
-          </svg>
+          />
           <div className="loading-ring-spinner hud-loading-spinner" aria-hidden="true" />
         </div>
 
         {/* Title & Tagline */}
         <div className="loading-text-group">
-          <h2 className="loading-brand-title">ANTASENA</h2>
+          <h2 className="loading-brand-title">SenaFlow</h2>
           <span className="loading-brand-tag">AGILE &amp; TELEMETRY PLATFORM</span>
         </div>
 

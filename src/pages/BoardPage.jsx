@@ -117,7 +117,7 @@ export default function BoardPage() {
       description: card.description || '',
       column: card.column || 'To Do',
       division: card.division || 'Programming',
-      assignee: card.assignee || 'Tim Antasena',
+      assignee: card.assignee || 'Tim SenaFlow',
       points: card.points || 5,
       priority: card.priority || 'Must',
       deadline: card.deadline || '',

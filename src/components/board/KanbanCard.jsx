@@ -218,7 +218,7 @@ const KanbanCard = React.memo(function KanbanCard({
           <div className="assignee-avatar">
             <span>{assigneeInitials}</span>
           </div>
-          <span className="assignee-name card-assignee">{card.assignee || 'Tim Antasena'}</span>
+          <span className="assignee-name card-assignee">{card.assignee || 'Tim SenaFlow'}</span>
         </div>
 
         <div className={`deadline-wrap ${isOverdue ? 'deadline-overdue-wrap' : ''}`}>

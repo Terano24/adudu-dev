@@ -291,6 +291,39 @@ textarea {
   flex-shrink: 0;
 }
 
+.sidebar-brand-mark {
+  width: 36px;
+  height: auto;
+  max-height: 32px;
+  object-fit: contain;
+  display: block;
+}
+
+.login-brand-icon-img {
+  width: 34px;
+  height: auto;
+  max-height: 28px;
+  object-fit: contain;
+  display: block;
+}
+
+.lp-card-logo-img {
+  width: 32px;
+  height: auto;
+  max-height: 28px;
+  object-fit: contain;
+  display: block;
+}
+
+.loading-brand-img {
+  width: 52px;
+  height: auto;
+  max-height: 48px;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 0 16px rgba(37, 99, 235, 0.45));
+}
+
 .sidebar-brand-text {
   display: flex;
   flex-direction: column;

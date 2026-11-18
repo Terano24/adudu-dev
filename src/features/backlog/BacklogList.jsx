@@ -163,7 +163,7 @@ export default function BacklogList() {
         points: Number(newPoints),
         sprint: Number(newSprint),
         division: newDivision,
-        owner: user?.name || 'Tim Antasena',
+        owner: user?.name || 'Tim SenaFlow',
         acceptance: acceptanceArray.length > 0 ? acceptanceArray : undefined,
       })
 
@@ -198,11 +198,11 @@ export default function BacklogList() {
         </div>
       )}
 
-      {/* 1. Hero Blue Banner (Product Backlog Antasena) */}
+      {/* 1. Hero Blue Banner (Product Backlog SenaFlow) */}
       <section className="dashboard-hero-banner backlog-hero-banner" aria-label="Product Backlog Banner">
         <div className="hero-banner-content">
           <div className="hero-badge-pill">EPIC REPOSITORY</div>
-          <h1 className="hero-main-title">Product Backlog Antasena</h1>
+          <h1 className="hero-main-title">Product Backlog SenaFlow</h1>
           <p className="hero-subtitle">
             Daftar User Story dan fitur teknis kendaraan, terstruktur berdasarkan Epic, Sprint terencana, dan Prioritas MoSCoW.
           </p>
@@ -796,7 +796,7 @@ export default function BacklogList() {
                 <div className="detail-meta-item">
                   <span className="detail-meta-label">Pemegang:</span>
                   <span className="detail-meta-val font-bold text-primary">
-                    {detailModalItem.owner || 'Tim Antasena'}
+                    {detailModalItem.owner || 'Tim SenaFlow'}
                   </span>
                 </div>
                 <div className="detail-meta-item">

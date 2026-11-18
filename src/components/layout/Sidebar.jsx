@@ -9,14 +9,14 @@ export default function Sidebar({ isCollapsed, onToggleSidebar }) {
 
   const userDisplayName = user?.name?.includes('(')
     ? user.name.split('(')[0].trim()
-    : user?.name || 'Admin Antasena'
+    : user?.name || 'Admin SenaFlow'
   const userRoleDisplay = user?.role === 'Admin/PO'
-    ? 'Antasena (PO)'
+    ? 'SenaFlow (PO)'
     : user?.role === 'Anggota Tim'
     ? 'Developer'
     : user?.role === 'Alumni Reviewer'
     ? 'Alumni'
-    : 'Antasena'
+    : 'SenaFlow'
 
   return (
     <aside
@@ -27,39 +27,14 @@ export default function Sidebar({ isCollapsed, onToggleSidebar }) {
       <div className="sidebar-brand">
         <NavLink to="/board" className="sidebar-brand-link">
           <div className="sidebar-logo-icon" aria-hidden="true">
-            {/* Origami layered A mark */}
-            <svg width="34" height="34" viewBox="0 0 36 36" fill="none">
-              <path
-                d="M18 4L31 29H23L18 19L13 29H5L18 4Z"
-                fill="url(#antasena-blue-grad)"
-              />
-              <path
-                d="M18 10L27 27H22L18 19L14 27H9L18 10Z"
-                fill="#2563EB"
-                fillOpacity="0.4"
-              />
-              <path
-                d="M18 14L23 25H19L18 22L17 25H13L18 14Z"
-                fill="#60A5FA"
-              />
-              <defs>
-                <linearGradient
-                  id="antasena-blue-grad"
-                  x1="5"
-                  y1="4"
-                  x2="31"
-                  y2="29"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stopColor="#1D4ED8" />
-                  <stop offset="0.5" stopColor="#2563EB" />
-                  <stop offset="1" stopColor="#38BDF8" />
-                </linearGradient>
-              </defs>
-            </svg>
+            <img
+              src="/images/senaflow-mark.png"
+              alt="SenaFlow"
+              className="sidebar-brand-mark"
+            />
           </div>
           <div className="sidebar-brand-text">
-            <span className="brand-title">ANTASENA</span>
+            <span className="brand-title">SenaFlow</span>
             <span className="brand-subtitle">Agile &amp; Telemetry</span>
           </div>
         </NavLink>

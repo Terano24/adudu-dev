@@ -109,9 +109,9 @@ export default function VaultPage() {
         title: newTitle.trim(),
         category: newCategory,
         year: Number(newYear),
-        author: newAuthor.trim() || user?.name || 'Tim Antasena',
+        author: newAuthor.trim() || user?.name || 'Tim SenaFlow',
         summary: newSummary.trim() || 'Dokumentasi teknis riset tim.',
-        tags: tagsArray.length > 0 ? tagsArray : ['Research', 'Antasena'],
+        tags: tagsArray.length > 0 ? tagsArray : ['Research', 'SenaFlow'],
         thumbType: catThumbMap[newCategory] || 'suspension',
       })
 
@@ -167,7 +167,7 @@ export default function VaultPage() {
         </div>
       )}
 
-      {/* 1. Hero Blue Banner (Knowledge Vault Antasena) */}
+      {/* 1. Hero Blue Banner (Knowledge Vault SenaFlow) */}
       <section className="dashboard-hero-banner vault-hero-banner" aria-label="Knowledge Vault Banner">
         <div className="hero-banner-content">
           <div className="hero-badge-pill">
@@ -189,7 +189,7 @@ export default function VaultPage() {
             <span>Knowledge Repository</span>
           </div>
 
-          <h1 className="hero-main-title">Knowledge Vault Antasena</h1>
+          <h1 className="hero-main-title">Knowledge Vault SenaFlow</h1>
           <p className="hero-subtitle">
             Repositori riset teknologi mobil hemat energi, dokumentasi teknis sasis &amp; fuel cell, dan arsip transfer pengetahuan regenerasi tim.
           </p>
@@ -979,7 +979,7 @@ export default function VaultPage() {
                   <path d="m9 15 3 3 3-3" />
                 </svg>
                 <div className="doc-preview-text">
-                  <span className="font-bold">Antasena_Engineering_Report_{readingDoc.id}.pdf</span>
+                  <span className="font-bold">SenaFlow_Engineering_Report_{readingDoc.id}.pdf</span>
                   <span className="text-secondary text-xs">Ukuran Berkas: 4.8 MB · Format Dokumen PDF Terenkripsi</span>
                 </div>
                 <button

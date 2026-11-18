@@ -10,7 +10,7 @@ export const STATIC_CREDENTIALS = [
   {
     username: 'admin',
     password: 'admin',
-    name: 'Admin Antasena (PO)',
+    name: 'Admin SenaFlow (PO)',
     role: ROLES.ADMIN_PO,
     division: 'Management & Operations',
   },
@@ -31,7 +31,7 @@ export const STATIC_CREDENTIALS = [
 ]
 
 const DEFAULT_USERS = [
-  { id: 'u1', username: 'admin', name: 'Admin Antasena (PO)', role: ROLES.ADMIN_PO, division: 'Management & Operations' },
+  { id: 'u1', username: 'admin', name: 'Admin SenaFlow (PO)', role: ROLES.ADMIN_PO, division: 'Management & Operations' },
   { id: 'u2', username: 'anggota', name: 'Dian Permana (Developer)', role: ROLES.TEAM_MEMBER, division: 'Programming & Electrical' },
   { id: 'u3', username: 'alumni', name: 'Ir. Ahmad Reza (Alumni)', role: ROLES.ALUMNI_REVIEWER, division: 'Alumni Reviewer' },
 ]
@@ -81,7 +81,7 @@ export function AuthProvider({ children }) {
       const defaultUser = DEFAULT_USERS.find(u => u.role === role) || {
         id: 'u_' + Date.now(),
         username: customName ? customName.toLowerCase().replace(/\s+/g, '.') : 'user',
-        name: customName || (role === ROLES.ADMIN_PO ? 'Admin Antasena' : role === ROLES.ALUMNI_REVIEWER ? 'Alumni Senior' : 'Anggota Tim'),
+        name: customName || (role === ROLES.ADMIN_PO ? 'Admin SenaFlow' : role === ROLES.ALUMNI_REVIEWER ? 'Alumni Senior' : 'Anggota Tim'),
         role,
         division: role === ROLES.ADMIN_PO ? 'Management' : role === ROLES.ALUMNI_REVIEWER ? 'Alumni Reviewer' : 'Programming',
       }

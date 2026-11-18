@@ -31,9 +31,9 @@ export default function Navbar({
         .slice(0, 2)
         .join('')
         .toUpperCase()
-    : 'AA'
+    : 'AS'
 
-  const displayName = user?.name || 'Admin Antasena'
+  const displayName = user?.name || 'Admin SenaFlow'
 
   return (
     <header className="app-topbar" aria-label="Top Navigation Bar">

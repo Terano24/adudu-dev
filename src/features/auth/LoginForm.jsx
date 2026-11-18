@@ -44,19 +44,15 @@ export default function LoginForm({
     <section className="lp-card modern-login-card">
       {/* Brand Header inside card */}
       <div className="lp-card-brand-header">
-        <svg
-          className="lp-card-logo"
-          width="26"
-          height="26"
-          viewBox="0 0 40 40"
-          fill="none"
+        <img
+          src="/images/senaflow-mark.png"
+          alt="SenaFlow"
+          className="lp-card-logo-img"
+          style={{ width: '28px', height: 'auto', objectFit: 'contain' }}
           aria-hidden="true"
-        >
-          <path d="M20 4L4 32H13L20 18L27 32H36L20 4Z" fill="#2563EB" />
-          <path d="M20 18L15 28H25L20 18Z" fill="#60A5FA" />
-        </svg>
+        />
         <div className="lp-brand-col">
-          <span className="lp-brand-title">ANTASENA</span>
+          <span className="lp-brand-title">SenaFlow</span>
           <span className="lp-brand-tagline">Agile &amp; Telemetry</span>
         </div>
       </div>

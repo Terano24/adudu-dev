@@ -53,7 +53,7 @@ export default function BacklogEpicCard({
 
   const meta = EPIC_METADATA[group.id] || {
     title: group.name || group.title || group.id,
-    subtitle: group.goal || 'Pengembangan fitur sistem Antasena Team ITS.',
+    subtitle: group.goal || 'Pengembangan fitur sistem SenaFlow Team ITS.',
   }
 
   const totalStories = group.items.length
@@ -298,7 +298,7 @@ export default function BacklogEpicCard({
                         <td className="story-division-cell">
                           <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                             <span className="font-bold text-primary" style={{ fontSize: '0.8rem' }}>
-                              {item.owner || 'Tim Antasena'}
+                              {item.owner || 'Tim SenaFlow'}
                             </span>
                             <span className="text-muted" style={{ fontSize: '0.72rem' }}>
                               {item.division || 'Tim Product'}
@@ -355,7 +355,7 @@ export default function BacklogEpicCard({
                                     ACCEPTANCE CRITERIA ({item.id})
                                   </span>
                                   <span className="criteria-owner-badge font-mono">
-                                    Pemegang: <strong>{item.owner || 'Tim Antasena'}</strong>
+                                    Pemegang: <strong>{item.owner || 'Tim SenaFlow'}</strong>
                                   </span>
                                 </div>
 

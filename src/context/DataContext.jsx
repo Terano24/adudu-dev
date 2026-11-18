@@ -171,7 +171,7 @@ export function DataProvider({ children }) {
       sprint: Number(newItemData.sprint) || 1,
       status: newItemData.status || 'To Do',
       division: newItemData.division || 'Tim Product',
-      owner: newItemData.owner || 'Tim Antasena',
+      owner: newItemData.owner || 'Tim SenaFlow',
       acceptance: newItemData.acceptance || [
         'Kriteria penerimaan awal telah didefinisikan oleh tim pengembang.',
       ],
@@ -196,7 +196,7 @@ export function DataProvider({ children }) {
       id: `DOC-${String(nextIndex).padStart(3, '0')}`,
       title: newDocData.title || 'Dokumen Riset Baru',
       category: newDocData.category || 'Vehicle Dynamics',
-      author: newDocData.author || 'Tim Riset Antasena',
+      author: newDocData.author || 'Tim Riset SenaFlow',
       date:
         newDocData.date ||
         new Date().toLocaleDateString('id-ID', {
@@ -209,7 +209,7 @@ export function DataProvider({ children }) {
       tags: newDocData.tags || ['Research'],
       summary:
         newDocData.summary ||
-        'Abstrak riset teknologi rekayasa kendaraan Antasena.',
+        'Abstrak riset teknologi rekayasa kendaraan SenaFlow.',
       thumbType: newDocData.thumbType || 'suspension',
     }
     setVaultDocs((prev) => [newDoc, ...prev])

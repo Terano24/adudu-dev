@@ -23,7 +23,7 @@ export default function TelemetryPage() {
           <div className="telemetry-eyebrow font-mono">LIVE TELEMETRY HUD</div>
           <h1 className="telemetry-main-title">Vehicle Telemetry Cockpit Simulator</h1>
           <p className="telemetry-subtitle">
-            Real-time telemetry data from Antasena Falcon 2.0 (#211) during testing session.
+            Real-time telemetry data from SenaFlow Falcon 2.0 (#211) during testing session.
           </p>
         </div>
 

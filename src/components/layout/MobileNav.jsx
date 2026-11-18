@@ -15,7 +15,7 @@ export default function MobileNav({ isOpen, onClose }) {
       <div className="mobile-nav-panel" onClick={(e) => e.stopPropagation()}>
         <div className="mobile-nav-header">
           <div className="brand-text">
-            <span className="brand-title">ANTASENA</span>
+            <span className="brand-title">SenaFlow</span>
             <span className="brand-tagline">MOBILE NAVIGATION</span>
           </div>
           <button

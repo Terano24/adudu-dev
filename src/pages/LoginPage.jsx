@@ -32,21 +32,16 @@ export default function LoginPage() {
       {/* Top Header Bar */}
       <header className="login-top-bar" aria-label="Header Login">
         <div className="login-top-left">
-          {/* Antasena Brand Logo */}
+          {/* SenaFlow Brand Logo */}
           <div className="login-brand-group">
-            <svg
-              className="login-brand-icon"
-              width="26"
-              height="26"
-              viewBox="0 0 40 40"
-              fill="none"
-              aria-hidden="true"
-            >
-              <path d="M20 4L4 32H13L20 18L27 32H36L20 4Z" fill="#2563EB" />
-              <path d="M20 18L15 28H25L20 18Z" fill="#60A5FA" />
-            </svg>
+            <img
+              src="/images/senaflow-mark.png"
+              alt="SenaFlow"
+              className="login-brand-icon-img"
+              style={{ width: '30px', height: 'auto', objectFit: 'contain' }}
+            />
             <div className="login-brand-col">
-              <span className="login-brand-name">ANTASENA</span>
+              <span className="login-brand-name">SenaFlow</span>
               <span className="login-brand-tagline">Agile &amp; Telemetry</span>
             </div>
           </div>
@@ -170,7 +165,7 @@ export default function LoginPage() {
 
       {/* Bottom Footer Bar */}
       <footer className="login-bottom-bar">
-        <span className="login-copyright">© 2025 Antasena. All rights reserved.</span>
+        <span className="login-copyright">© 2025 SenaFlow. All rights reserved.</span>
         <span className="login-team-tag font-mono">
           <span className="team-purple-dot" aria-hidden="true" />
           <span>ITS RACING TEAM</span>
