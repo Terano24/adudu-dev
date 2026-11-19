@@ -1,0 +1,90 @@
+[00:01] Jadi aku mulai langsung buat review backlog hari ini. Jadi yang pertama, pertanyaan yang paling awal tentang perlul atau run user di website.
+[00:20] Nah ini kan bakal ada adminnya, ada anggota, ada Ritim sendiri, dan juga ada alumni reviewer.
+[00:26] Nah pertanyaan itu juga tentang alumni ini. Apakah alumni ini bakal dipastikan itu bisa bersedia untuk memakai platformnya?
+[00:34] Karena kan dia nggak aktif lagi, tapi dia ada di dalam produk di luar nembang untuk jadi reviewer lah. Apakah dia kira-kira bersedia untuk hadir di?
+[00:43] Oke, mungkin mostly untuk alumni, bersedia untuk ada di aplikasi. Karena juga alumni mau memantau.
+[00:59] Oke, ya harusnya aman ya berdiamannya.
+[01:04] Jadi, nanti bakal di review alumni itu ada produk untuk ngereview ya, dan juga ada rating dari 1-5 lah tentang hasil dari kerjaan masing-masing, objek dan lain-lain.
+[01:22] Nah kira-kira yang berhak untuk menyatujui column review ini tuh siapa ya? Column review dari masing-masing objek di website nanti? Apakah sekarang mas?
+[01:36] Manajernya atau?
+[01:43] Yang menutupi card itu dari manajernya.
+[01:49] Berarti dari manajer teknikal dan manteq ya?
+[01:53] Oke, udah, ntar.
+[01:57] Nah, terus kita kan di produknya bakal nampakin telemetri. Nah itu pakai data simulasi doang, karena data RWA kan seperti kita tahu bersifatnya rasia.
+[02:07] Nah ini apakah cukup ya untuk demo? Karena ada batasan lain atau ada masukkan? Mungkin masukin data apa, id-nya?
+[02:19] Mungkin data-data major gitu ya, yang sekiranya dibutuhkan aja. Untuk data-data yang lebih sipatnya confidential, mungkin dibatasi.
+[02:33] Oke, terus tetap dibatakan aja.
+[02:37] Oke, ini kan bakal udah juga selain data mobil, kita akan ada data seperti knowledge fold. Knowledge fold itu seperti data asal reset dari masing-masing ATVC.
+[02:53] Jadi kayak setiap asal reset, beneran itu ada dokumentasinya. Nah ini tuh apakah sudah cukup ya? Karena dia untuk teknikal saja sih.
+[03:01] Untuk
+[03:05] dan juga tentang fuel cell itu apakah sudah cukup atau perlu ditambah dari reset dari lain-lain lagi?
+[03:14] Oke, sudah cukup sih.
+[03:16] Oke, oke.
+[03:20] Terus?
+[03:22] Akbar apa kamu?
+[03:24] Akbar lagi, biar nggak akbar dulu.
+[03:27] Oke, boleh.
+[03:29] Makanya ini mas, buat sel-
+[03:31] Kan, mas udah dikasih dokumennya juga ya sama Terano, mas?
+[03:35] Jadi dari seluruh fitur yang kami rancang itu, menurut mas itu apakah sesuai dengan kebutuhan? Atau menurut mas masih ada fitur lagi yang perlu ditambahkan?
+[03:45] Bisa diulang? Mungkin saya ulang lagi, mas?
+[03:59] Iya, boleh.
+[04:02] Kan, mas ini sudah dikasih dokumen soal requirement yang bakal dibuat ya mas ya? Fitur-fitur mas ya? Sama Terano.
+[04:10] Sudah.
+[04:13] Menurut mas dari seluruhan fitur itu apakah sudah cukup untuk menjawab dari kebutuhan? Atau harus ada beberapa fitur lagi yang ditambahkan atau diimprovisasi, mas?
+[04:25] Cukup sih.
+[04:29] Cukup, cukup.
+[04:31] Terus, mungkin satu pertanyaan lagi nanti di-try aja Terano, mungkin bisa dilanjut dulu aja.
+[04:37] Oke, oke, tolong ya.
+[04:39] Terus yang ini lagi, kita kan spreadsheet-nya, kita pantesannya pakai spreadsheet ya buat, apa namanya, buat nge-dokumentasi semuanya.
+[04:50] Dan ini tuh bakal di-migrasi di website ini.
+[04:52] Nah, ini tuh bakal dimulai dari 0, itu apakah versi lamanya perlu ditaruh semuanya dulu juga di website-nya atau gimana?
+[05:02] Kalau bisa versi lamanya juga ditaruh, karena itu bagian dari dokumentasi project, dari tahun-tahun seminggu ini.
+[05:12] Oke, oke, oke.
+[05:15] Berarti nanti, platform ini tuh kan bakal di-hosting itu yang bakal megang dan kita perlu kontaknya ke siapa yang bakal megang nanti setelah platform ini di-hosting?
+[05:30] Untuk yang maintain ya, berarti?
+[05:33] Iya.
+[05:37] Kalau untuk yang maintain, dari teman-teman developer pastinya, teman programming.
+[05:43] Oke, oke.
+[05:45] Dan juga dipantas sama manager.
+[05:47] Oke.
+[05:49] Sama,
+[05:54] ya kan ini bakal ada, di website ini bakal ada namanya definition of,
+[05:58] dan jadi kayak misal apa yang membuat satu objective itu selesai kan.
+[06:04] Ini ada kualitas baru.
+[06:06] Dan kira-kira itu udah sesuai dengan standar kualitas dari tim berantasan sendiri atau apakah ada mau perbedaan ya untuk masing-masing komponen atau masing-masing pisi.
+[06:18] Untuk definition of dan yang sendiri.
+[06:21] Sebaiknya,
+[06:26] Cukup sih, cukup dikatakan.
+[06:28] Oke, oke.
+[06:30] Apakah ada kelagian, Bar?
+[06:32] Biar aku tulis sih.
+[06:34] Mungkin ini sih mas, buat penutup juga.
+[06:38] Itu buat nanti website-nya itu, atau project ini lah mas, itu nanti harapan dari stakeholders itu kayak gimana mas?
+[06:47] Buat project ini nanti, apakah nanti akan diimplementasikan atau gimana?
+[06:53] Harapannya, pastinya bisa diimplementasikan dan juga bisa membantu lah untuk teman-teman di antar Sena,
+[07:04] merekap data, mengelola data dan juga melihat performa menilai dan memperbaiki ke depannya.
+[07:15] Selanjutnya, maaf mas ternyata ada tambahan.
+[07:28] Untuk prioritas fitur yang didahulukan tentang data-datanya,
+[07:33] atau lebih baik di data mobil, knowledge, atau yang mana dulu mas untuk prioritas untuk kami kerjakan?
+[07:40] Atau yang terakhir, dari workflow juga?
+[07:45] Oke, prioritas itu main, apa ya, pekerjaan utamanya kan mobil ya di mobil.
+[07:58] Baru mungkin setelah itu riset-riset yang dilakukan sama Sena.
+[08:06] Dari aku sudah cukup sih, atau ada yang lain?
+[08:09] Mungkin yang lain, ada tambahan ke? Dari Arya atau dari Dimas?
+[08:22] Dari aku aman, bisa di cukupkan juga.
+[08:26] Mungkin dari Dimas, aman ke HDIM?
+[08:31] Oke, dari Dimas aman.
+[08:35] Oke, sudah selesai buat tariannya, terima kasih banyak.
+[08:39] Butuh dokumentasi kaya, Terano?
+[08:41] Oh iya, screenshot aja?
+[08:43] Screenshot ya?
+[08:45] Oke, screenshot.
+[08:47] Dari Dimas bisa nggak diambil screenshot-nya?
+[08:53] Dari aku aja?
+[08:55] Oh, ya.
+[08:58] Satu, dua, tiga.
+[09:10] Udah?
+[09:12] Aman.
+[09:14] Oke, terima kasih banyak, Was.
+[09:17] Sama-sama, Was.
