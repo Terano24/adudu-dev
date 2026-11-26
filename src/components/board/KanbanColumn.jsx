@@ -29,6 +29,7 @@ const KanbanColumn = React.memo(function KanbanColumn({
   onMove,
   onDelete,
   onOpenDetail,
+  cardMeta,
 }) {
   const [isDragOver, setIsDragOver] = useState(false)
   const theme = COLUMN_THEMES[colName] || { slug: 'todo', dotColor: '#94A3B8' }
@@ -95,6 +96,7 @@ const KanbanColumn = React.memo(function KanbanColumn({
               onMove={onMove}
               onDelete={onDelete}
               onOpenDetail={onOpenDetail}
+              meta={cardMeta ? cardMeta[card.id] : undefined}
             />
           ))
         )}

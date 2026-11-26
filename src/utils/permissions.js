@@ -19,6 +19,10 @@ export function checkPermission(role, action, resource) {
   }
 
   if (role === ROLES.TEAM_MEMBER) {
+    // PBI-008/009: review & persetujuan hanya untuk PO dan Alumni/Mitra
+    if (['review', 'approve'].includes(action)) return false
+    // PBI-010: hanya PO yang dapat mengubah isi checklist DoD
+    if (resource === 'dod' && action === 'manage') return false
     if (resource === 'card') {
       if (['create', 'edit', 'move', 'delete'].includes(action)) return true
     }
@@ -31,7 +35,8 @@ export function checkPermission(role, action, resource) {
   if (role === ROLES.ALUMNI_REVIEWER) {
     if (resource === 'card') {
       if (['create', 'delete', 'move'].includes(action)) return false
-      if (['view', 'review', 'comment'].includes(action)) return true
+      // Alumni Reviewer bertindak sebagai mitra: dapat menyetujui/meminta revisi (PBI-009)
+      if (['view', 'review', 'comment', 'approve'].includes(action)) return true
     }
     if (resource === 'review' || resource === 'comment') {
       return true

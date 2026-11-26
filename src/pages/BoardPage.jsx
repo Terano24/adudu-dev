@@ -1,13 +1,15 @@
-import React, { useState, useMemo, useCallback } from 'react'
+import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react'
 import { useData } from '../context/DataContext.jsx'
 import { useAuth } from '../context/AuthContext.jsx'
 import AccessDenied from '../components/common/AccessDenied.jsx'
 import KanbanColumn from '../components/board/KanbanColumn.jsx'
+import CardCollabPanel from '../features/collaboration/CardCollabPanel.jsx'
+import { getDodStatus, getBlockers, getAverageRating, getApprovalState } from '../utils/index.js'
 
 const COLUMNS = ['To Do', 'In Progress', 'Review', 'Done']
 
 export default function BoardPage() {
-  const { boardCards, addCard, updateCard, deleteCard, moveCard, resetToSeed } = useData()
+  const { boardCards, addCard, updateCard, deleteCard, moveCard, resetToSeed, dodTemplate } = useData()
   const { can, user } = useAuth()
 
   // Modal / Form state
@@ -19,6 +21,17 @@ export default function BoardPage() {
   const [divisionFilter, setDivisionFilter] = useState('All')
   const [assigneeFilter, setAssigneeFilter] = useState('All')
   const [selectedSprintOverview, setSelectedSprintOverview] = useState('Sprint 1')
+  const [toast, setToast] = useState(null)
+  const toastTimer = useRef(null)
+
+  // Notifikasi singkat (dipakai saat gatekeeper Done menolak perpindahan - PBI-011)
+  const showToast = useCallback((next) => {
+    setToast(next)
+    clearTimeout(toastTimer.current)
+    toastTimer.current = setTimeout(() => setToast(null), 9000)
+  }, [])
+
+  useEffect(() => () => clearTimeout(toastTimer.current), [])
 
   // Form input state
   const [newTitle, setNewTitle] = useState('')
@@ -104,14 +117,21 @@ export default function BoardPage() {
         })
         return
       }
-      moveCard(cardId, nextColumn)
+      const result = moveCard(cardId, nextColumn)
+      if (!result.success) {
+        showToast({
+          title: `${cardId} belum bisa dipindah ke ${nextColumn}`,
+          reasons: result.reasons || [result.error],
+          cardId,
+        })
+      }
     },
-    [can, moveCard]
+    [can, moveCard, showToast]
   )
 
   // Handle Buka Modal Detail Card (PBI-004)
-  const handleOpenDetailCard = useCallback((card) => {
-    setDetailCard(card)
+  const handleOpenDetailCard = useCallback((card, initialTab) => {
+    setDetailCard(initialTab ? { ...card, initialTab } : card)
     setEditCardForm({
       title: card.title || '',
       description: card.description || '',
@@ -162,6 +182,12 @@ export default function BoardPage() {
           points: Number(editCardForm.points),
         }))
         setIsEditingCard(false)
+      } else if (result.gate) {
+        showToast({
+          title: `${detailCard.id} belum bisa dipindah ke Done`,
+          reasons: result.reasons,
+          cardId: detailCard.id,
+        })
       } else {
         setDeniedActionMessage({
           title: 'Gagal Mengubah Card',
@@ -209,6 +235,27 @@ export default function BoardPage() {
   const totalStoryPoints = 122 // As defined in Backlog & Reference Image
   const totalEpics = 5
   const totalTargetSprint = 4
+
+  // Indikator Sprint 2 untuk muka card (DoD, terblokir, komentar, rating, persetujuan)
+  const cardMeta = useMemo(() => {
+    const meta = {}
+    boardCards.forEach((card) => {
+      const dod = getDodStatus(card, dodTemplate)
+      meta[card.id] = {
+        dodDone: dod.done,
+        dodTotal: dod.total,
+        blockers: getBlockers(card, boardCards).map((b) => b.id),
+        comments: (card.comments || []).length,
+        avgRating: getAverageRating(card),
+        approval: getApprovalState(card),
+      }
+    })
+    return meta
+  }, [boardCards, dodTemplate])
+
+  const liveDetail = detailCard
+    ? boardCards.find((c) => c.id === detailCard.id) || detailCard
+    : null
 
   const canMove = can('move', 'card')
   const canDelete = can('delete', 'card')
@@ -547,6 +594,7 @@ export default function BoardPage() {
                   onMove={handleMoveColumn}
                   onDelete={handleDeleteCard}
                   onOpenDetail={handleOpenDetailCard}
+                  cardMeta={cardMeta}
                 />
               ))}
             </div>
@@ -708,6 +756,45 @@ export default function BoardPage() {
           </div>
         </div>
       </section>
+
+      {/* Toast gatekeeper Done (PBI-011 / PBI-009) */}
+      {toast && (
+        <div className="board-toast" role="alert" aria-live="assertive">
+          <div className="board-toast-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+          </div>
+          <div className="board-toast-body">
+            <p className="board-toast-title">{toast.title}</p>
+            <ul className="board-toast-reasons">
+              {toast.reasons.map((r, i) => (
+                <li key={i}>{r}</li>
+              ))}
+            </ul>
+            {toast.cardId && boardCards.some((c) => c.id === toast.cardId) && (
+              <button
+                type="button"
+                className="board-toast-action"
+                onClick={() => {
+                  const target = boardCards.find((c) => c.id === toast.cardId)
+                  setToast(null)
+                  handleOpenDetailCard(target, 'dod')
+                }}
+              >
+                Buka checklist card
+              </button>
+            )}
+          </div>
+          <button type="button" className="board-toast-close" onClick={() => setToast(null)} aria-label="Tutup notifikasi">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+      )}
 
       {/* Modal Dialog Tambah Card Baru */}
       {isAddModalOpen && (
@@ -1105,21 +1192,24 @@ export default function BoardPage() {
                   </div>
                 </div>
 
+                {/* Sprint 2: DoD, Review & Persetujuan, Komentar, Dependensi */}
+                <CardCollabPanel key={detailCard.id} cardId={detailCard.id} initialTab={detailCard.initialTab} />
+
                 {/* Status Movement History (PBI-003 Criteria #2: Status baru tersimpan dan tercatat waktunya) */}
                 <div style={{ marginTop: '16px', borderTop: '1px solid var(--border-color)', paddingTop: '12px' }}>
                   <h4 style={{ fontSize: '0.85rem', fontWeight: '700', color: 'var(--text-muted)', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                     Riwayat Perpindahan Status
                   </h4>
-                  {detailCard.history && detailCard.history.length > 0 ? (
+                  {liveDetail.history && liveDetail.history.length > 0 ? (
                     <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                      {detailCard.history.map((h, i) => (
+                      {liveDetail.history.map((h, i) => (
                         <li key={i} style={{ fontSize: '0.8rem', color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: '8px' }}>
                           <span style={{ color: '#2563EB', fontWeight: 'bold' }}>•</span>
                           <span>
                             Dari <strong>{h.from}</strong> ke <strong>{h.to}</strong>
                           </span>
                           <span className="font-mono text-muted" style={{ fontSize: '0.72rem' }}>
-                            ({new Date(h.movedAt).toLocaleString('id-ID')})
+                            ({new Date(h.movedAt).toLocaleString('id-ID')}{h.by ? ` · ${h.by}` : ''})
                           </span>
                         </li>
                       ))}

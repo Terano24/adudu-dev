@@ -1,1 +1,1 @@
-// TODO: fitur dependencies
+export { default as DependencyPanel } from './DependencyPanel.jsx'

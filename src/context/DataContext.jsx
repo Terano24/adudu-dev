@@ -7,6 +7,19 @@ import {
   SEED_VAULT_DOCUMENTS,
 } from '../data/seedData.js'
 import { useAuth } from './AuthContext.jsx'
+import { canMoveToDone, wouldCreateCycle, DONE_COLUMN, REVIEW_COLUMN } from '../utils/index.js'
+
+// Template DoD awal: 5 poin Definition of Done dari Product Backlog (PBI-010)
+const SEED_DOD_TEMPLATE = (SEED_BACKLOG.dod || []).map((text, i) => ({
+  id: `dod-${i + 1}`,
+  text,
+}))
+
+const newId = (prefix) => `${prefix}-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`
+
+function formatGateError(reasons) {
+  return 'Card tidak dapat dipindahkan ke Done. ' + reasons.join(' ')
+}
 
 const DataContext = createContext()
 
@@ -37,6 +50,26 @@ export function DataProvider({ children }) {
     'antasena_vault_docs',
     SEED_VAULT_DOCUMENTS
   )
+
+  // 5. Template Checklist DoD global (PBI-010)
+  const [dodTemplate, setDodTemplate] = useLocalStorage(
+    'antasena_dod_template',
+    SEED_DOD_TEMPLATE
+  )
+
+  const actor = () => ({
+    username: user?.username || 'anon',
+    name: user?.name || 'Pengguna',
+    role: user?.role || '-',
+  })
+
+  const patchCard = (cardId, patchFn) => {
+    setBoardCards((prev) =>
+      prev.map((card) => (card.id === cardId ? { ...card, ...patchFn(card) } : card))
+    )
+  }
+
+  const findCard = (cardId) => boardCards.find((c) => c.id === cardId)
 
   // Mutasi: Tambah Card (dengan validasi RBAC PBI-001)
   const addCard = (newCardData) => {
@@ -86,6 +119,11 @@ export function DataProvider({ children }) {
       }
     }
 
+    const current = findCard(cardId)
+    if (current && updatedData.column && updatedData.column !== current.column) {
+      return moveCardThenUpdate(current, updatedData)
+    }
+
     setBoardCards((prev) =>
       prev.map((card) =>
         card.id === cardId
@@ -100,6 +138,32 @@ export function DataProvider({ children }) {
     return { success: true }
   }
 
+  // Perpindahan kolom dengan gatekeeper Done (PBI-011) & persetujuan (PBI-009)
+  const applyMove = (card, targetColumn) => {
+    const now = new Date().toISOString()
+    const leavingReview = card.column === REVIEW_COLUMN && targetColumn !== DONE_COLUMN
+    return {
+      column: targetColumn,
+      updatedAt: now,
+      // Persetujuan berlaku untuk satu siklus Review; keluar Review (selain ke Done) meresetnya
+      approval: leavingReview ? null : card.approval || null,
+      history: [
+        ...(card.history || []),
+        { from: card.column, to: targetColumn, movedAt: now, by: actor().name },
+      ],
+    }
+  }
+
+  const validateMove = (card, targetColumn) => {
+    if (targetColumn === DONE_COLUMN && card.column !== DONE_COLUMN) {
+      const gate = canMoveToDone(card, dodTemplate)
+      if (!gate.allowed) {
+        return { success: false, gate: true, reasons: gate.reasons, error: formatGateError(gate.reasons) }
+      }
+    }
+    return { success: true }
+  }
+
   // Mutasi: Pindahkan Kolom Card
   const moveCard = (cardId, targetColumn) => {
     if (!can('move', 'card')) {
@@ -109,26 +173,170 @@ export function DataProvider({ children }) {
       }
     }
 
+    const card = findCard(cardId)
+    if (!card || card.column === targetColumn) return { success: true }
+
+    const check = validateMove(card, targetColumn)
+    if (!check.success) return check
+
+    patchCard(cardId, (c) => applyMove(c, targetColumn))
+    return { success: true }
+  }
+
+  const moveCardThenUpdate = (card, updatedData) => {
+    const check = validateMove(card, updatedData.column)
+    if (!check.success) return check
+    patchCard(card.id, (c) => ({
+      ...updatedData,
+      ...applyMove(c, updatedData.column),
+    }))
+    return { success: true }
+  }
+
+  // ---------------- PBI-007: Komentar ----------------
+  const addComment = (cardId, text) => {
+    const clean = (text || '').trim()
+    if (!user) return { success: false, error: 'Silakan login untuk berkomentar.' }
+    if (!clean) return { success: false, error: 'Komentar tidak boleh kosong.' }
+    const comment = { id: newId('cmt'), ...actor(), text: clean, createdAt: new Date().toISOString() }
+    patchCard(cardId, (c) => ({ comments: [...(c.comments || []), comment] }))
+    return { success: true, comment }
+  }
+
+  const deleteComment = (cardId, commentId) => {
+    const card = findCard(cardId)
+    const comment = card?.comments?.find((c) => c.id === commentId)
+    if (!comment) return { success: false, error: 'Komentar tidak ditemukan.' }
+    if (comment.username !== user?.username) {
+      return { success: false, error: 'Anda hanya dapat menghapus komentar milik sendiri.' }
+    }
+    patchCard(cardId, (c) => ({ comments: (c.comments || []).filter((x) => x.id !== commentId) }))
+    return { success: true }
+  }
+
+  // ---------------- PBI-008: Review alumni ----------------
+  const upsertReview = (cardId, rating, note) => {
+    if (!can('review', 'card')) {
+      return { success: false, error: 'Hanya Alumni Reviewer atau PO yang dapat memberi review.' }
+    }
+    const card = findCard(cardId)
+    if (!card || ![REVIEW_COLUMN, DONE_COLUMN].includes(card.column)) {
+      return { success: false, error: 'Review hanya dapat dibuat pada card berstatus Review atau Done.' }
+    }
+    const value = Number(rating)
+    if (!Number.isInteger(value) || value < 1 || value > 5) {
+      return { success: false, error: 'Rating wajib dipilih (1-5).' }
+    }
+    const cleanNote = (note || '').trim()
+    if (!cleanNote) return { success: false, error: 'Catatan review wajib diisi.' }
+
+    const me = actor()
     const now = new Date().toISOString()
-    setBoardCards((prev) =>
-      prev.map((card) =>
-        card.id === cardId
-          ? {
-              ...card,
-              column: targetColumn,
-              updatedAt: now,
-              history: [
-                ...(card.history || []),
-                {
-                  from: card.column,
-                  to: targetColumn,
-                  movedAt: now,
-                },
-              ],
-            }
-          : card
-      )
-    )
+    patchCard(cardId, (c) => {
+      const reviews = c.reviews || []
+      const existing = reviews.find((r) => r.username === me.username)
+      const next = existing
+        ? reviews.map((r) =>
+            r.username === me.username ? { ...r, rating: value, note: cleanNote, updatedAt: now } : r
+          )
+        : [...reviews, { ...me, rating: value, note: cleanNote, createdAt: now }]
+      return { reviews: next }
+    })
+    return { success: true, updated: !!card.reviews?.some((r) => r.username === me.username) }
+  }
+
+  // ---------------- PBI-009: Persetujuan PO / mitra ----------------
+  const decideApproval = (cardId, decision, reason) => {
+    if (!can('approve', 'card')) {
+      return { success: false, error: 'Hanya PO atau mitra (Alumni Reviewer) yang dapat memberi persetujuan.' }
+    }
+    const card = findCard(cardId)
+    if (!card || card.column !== REVIEW_COLUMN) {
+      return { success: false, error: 'Persetujuan hanya dapat diberikan pada card di kolom Review.' }
+    }
+    if (!['approved', 'revision'].includes(decision)) {
+      return { success: false, error: 'Keputusan tidak dikenal.' }
+    }
+    const cleanReason = (reason || '').trim()
+    if (!cleanReason) return { success: false, error: 'Alasan keputusan wajib diisi.' }
+
+    const entry = { decision, reason: cleanReason, ...actor(), at: new Date().toISOString() }
+    patchCard(cardId, (c) => ({
+      approval: entry,
+      approvalLog: [...(c.approvalLog || []), entry],
+    }))
+    return { success: true }
+  }
+
+  // ---------------- PBI-010/011: Checklist DoD ----------------
+  const toggleDodItem = (cardId, itemId) => {
+    if (!can('check', 'dod')) {
+      return { success: false, error: 'Hanya anggota tim atau PO yang dapat mencentang checklist DoD.' }
+    }
+    const me = actor()
+    patchCard(cardId, (c) => {
+      const checks = { ...(c.dodChecks || {}) }
+      if (checks[itemId]) delete checks[itemId]
+      else checks[itemId] = { by: me.name, role: me.role, at: new Date().toISOString() }
+      return { dodChecks: checks }
+    })
+    return { success: true }
+  }
+
+  const requireDodManager = () =>
+    can('manage', 'dod') ? null : { success: false, error: 'Hanya Product Owner yang dapat mengubah isi checklist DoD.' }
+
+  const addDodItem = (text) => {
+    const denied = requireDodManager()
+    if (denied) return denied
+    const clean = (text || '').trim()
+    if (!clean) return { success: false, error: 'Teks poin DoD tidak boleh kosong.' }
+    setDodTemplate((prev) => [...prev, { id: newId('dod'), text: clean }])
+    return { success: true }
+  }
+
+  const updateDodItem = (itemId, text) => {
+    const denied = requireDodManager()
+    if (denied) return denied
+    const clean = (text || '').trim()
+    if (!clean) return { success: false, error: 'Teks poin DoD tidak boleh kosong.' }
+    setDodTemplate((prev) => prev.map((i) => (i.id === itemId ? { ...i, text: clean } : i)))
+    return { success: true }
+  }
+
+  const removeDodItem = (itemId) => {
+    const denied = requireDodManager()
+    if (denied) return denied
+    setDodTemplate((prev) => prev.filter((i) => i.id !== itemId))
+    return { success: true }
+  }
+
+  // ---------------- PBI-012: Dependensi antar card ----------------
+  const addDependency = (cardId, dependsOnId) => {
+    if (!can('edit', 'card')) {
+      return { success: false, error: 'Peran Anda tidak diizinkan mengubah dependensi card.' }
+    }
+    const card = findCard(cardId)
+    const target = findCard(dependsOnId)
+    if (!card || !target) return { success: false, error: 'Card dependensi tidak ditemukan.' }
+    if ((card.dependsOn || []).includes(dependsOnId)) {
+      return { success: false, error: `${cardId} sudah bergantung pada ${dependsOnId}.` }
+    }
+    if (wouldCreateCycle(cardId, dependsOnId, boardCards)) {
+      return {
+        success: false,
+        error: `Dependensi melingkar ditolak: ${dependsOnId} sudah (langsung atau tidak langsung) bergantung pada ${cardId}.`,
+      }
+    }
+    patchCard(cardId, (c) => ({ dependsOn: [...(c.dependsOn || []), dependsOnId] }))
+    return { success: true }
+  }
+
+  const removeDependency = (cardId, dependsOnId) => {
+    if (!can('edit', 'card')) {
+      return { success: false, error: 'Peran Anda tidak diizinkan mengubah dependensi card.' }
+    }
+    patchCard(cardId, (c) => ({ dependsOn: (c.dependsOn || []).filter((id) => id !== dependsOnId) }))
     return { success: true }
   }
 
@@ -234,6 +442,8 @@ export function DataProvider({ children }) {
     setBacklogItems(SEED_BACKLOG.items || [])
     setTelemetryRuns(SEED_TELEMETRY_RUNS)
     setVaultDocs(SEED_VAULT_DOCUMENTS)
+    setDodTemplate(SEED_DOD_TEMPLATE)
+    localStorage.removeItem('antasena_dod_template')
     localStorage.removeItem('antasena_board_cards')
     localStorage.removeItem('antasena_backlog_items')
     localStorage.removeItem('antasena_telemetry_runs')
@@ -252,6 +462,17 @@ export function DataProvider({ children }) {
         updateCard,
         deleteCard,
         moveCard,
+        dodTemplate,
+        addComment,
+        deleteComment,
+        upsertReview,
+        decideApproval,
+        toggleDodItem,
+        addDodItem,
+        updateDodItem,
+        removeDodItem,
+        addDependency,
+        removeDependency,
         addBacklogItem,
         updateBacklogPriority,
         addVaultDoc,
