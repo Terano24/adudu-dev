@@ -9,6 +9,7 @@ const KanbanCard = React.memo(function KanbanCard({
   onMove,
   onDelete,
   onOpenDetail,
+  meta,
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
@@ -63,9 +64,22 @@ const KanbanCard = React.memo(function KanbanCard({
         .toUpperCase()
     : 'AT'
 
+  const blockers = meta?.blockers || []
+  const isBlocked = blockers.length > 0
+  const approvalCopy = {
+    pending: { label: 'Menunggu persetujuan', cls: 'is-pending' },
+    approved: { label: 'Disetujui', cls: 'is-ok' },
+    revision: { label: 'Perlu revisi', cls: 'is-blocked' },
+  }[meta?.approval]
+  const dodComplete = meta && meta.dodTotal > 0 && meta.dodDone === meta.dodTotal
+  const openTab = (tab) => (e) => {
+    e.stopPropagation()
+    if (onOpenDetail) onOpenDetail(card, tab)
+  }
+
   return (
     <div
-      className={`modern-kanban-card kanban-card ${isOverdue ? 'card-overdue' : ''} ${
+      className={`modern-kanban-card kanban-card ${isOverdue ? 'card-overdue' : ''} ${isBlocked ? 'card-blocked' : ''} ${
         isDragging ? 'is-card-dragging' : ''
       }`}
       draggable={canMove}
@@ -207,9 +221,85 @@ const KanbanCard = React.memo(function KanbanCard({
         {card.title}
       </h3>
 
+      {/* Status Sprint 2: Terblokir (PBI-012) & Persetujuan (PBI-009) */}
+      {(isBlocked || approvalCopy) && (
+        <div className="card-status-row">
+          {isBlocked && (
+            <button
+              type="button"
+              className="status-chip is-blocked card-status-chip"
+              onClick={openTab('deps')}
+              title={`Menunggu: ${blockers.join(', ')}`}
+            >
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <rect x="3" y="11" width="18" height="11" rx="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+              Terblokir · {blockers.join(', ')}
+            </button>
+          )}
+          {approvalCopy && (
+            <button
+              type="button"
+              className={`status-chip ${approvalCopy.cls} card-status-chip`}
+              onClick={openTab('review')}
+            >
+              {approvalCopy.label}
+            </button>
+          )}
+        </div>
+      )}
+
       {/* Card Description */}
       {card.description && (
         <p className="card-desc modern-card-desc">{card.description}</p>
+      )}
+
+      {/* Indikator: DoD (PBI-010), Komentar (PBI-007), Rating (PBI-008) */}
+      {meta && (
+        <div className="card-indicator-row">
+          <button
+            type="button"
+            className={`card-indicator ${dodComplete ? 'is-complete' : ''}`}
+            onClick={openTab('dod')}
+            title="Checklist Definition of Done"
+            aria-label={`Checklist DoD ${meta.dodDone} dari ${meta.dodTotal}`}
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <polyline points="9 11 12 14 22 4" />
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+            </svg>
+            <span className="tabular-nums">
+              {meta.dodDone}/{meta.dodTotal}
+            </span>
+          </button>
+          <button
+            type="button"
+            className="card-indicator"
+            onClick={openTab('comments')}
+            title="Komentar"
+            aria-label={`${meta.comments} komentar`}
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            </svg>
+            <span className="tabular-nums">{meta.comments}</span>
+          </button>
+          {meta.avgRating !== null && (
+            <button
+              type="button"
+              className="card-indicator is-rating"
+              onClick={openTab('review')}
+              title="Rata-rata rating review"
+              aria-label={`Rata-rata rating ${meta.avgRating}`}
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              </svg>
+              <span className="tabular-nums">{meta.avgRating.toFixed(1)}</span>
+            </button>
+          )}
+        </div>
       )}
 
       {/* Card Footer: Assignee & Deadline */}
