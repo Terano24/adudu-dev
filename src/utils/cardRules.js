@@ -9,6 +9,9 @@
 export const DONE_COLUMN = 'Done'
 export const REVIEW_COLUMN = 'Review'
 
+/** Jumlah minimal poin DoD umum (PBI-010). */
+export const MIN_DOD_ITEMS = 5
+
 /** Status DoD sebuah card terhadap template DoD global. */
 export function getDodStatus(card, template = []) {
   const checks = card?.dodChecks || {}
@@ -22,8 +25,38 @@ export function getDodStatus(card, template = []) {
     total: items.length,
     done: items.length - unchecked.length,
     unchecked,
-    complete: unchecked.length === 0,
+    // Template kosong tidak boleh dianggap selesai (PBI-010/011).
+    complete: items.length > 0 && unchecked.length === 0,
   }
+}
+
+/** Card baru tidak boleh langsung dibuat di kolom Done (PBI-009/011). */
+export function canCreateCardInColumn(column) {
+  return column !== DONE_COLUMN
+}
+
+/** PO tidak boleh menghapus poin DoD hingga di bawah 5 poin (PBI-010). */
+export function canRemoveDodItem(template = []) {
+  return template.length > MIN_DOD_ITEMS
+}
+
+/**
+ * Approval hanya berlaku untuk satu siklus Review -> Done.
+ * Transisi lain (termasuk kembali ke Review) mengosongkan approval lama.
+ */
+export function nextApproval(card, targetColumn) {
+  const isReviewToDone =
+    card?.column === REVIEW_COLUMN && targetColumn === DONE_COLUMN
+  return isReviewToDone ? card.approval || null : null
+}
+
+/** Bersihkan referensi dependensi ke card yang sudah dihapus (PBI-012). */
+export function stripCardDependencies(cards = [], removedId) {
+  return cards.map((card) => {
+    const deps = card.dependsOn || []
+    if (!deps.includes(removedId)) return card
+    return { ...card, dependsOn: deps.filter((id) => id !== removedId) }
+  })
 }
 
 /** Card dependensi yang belum Done (penyebab status Terblokir). */
@@ -73,7 +106,16 @@ export function getAverageRating(card) {
 export function canMoveToDone(card, template = []) {
   const reasons = []
   const dod = getDodStatus(card, template)
-  if (!dod.complete) {
+  if (dod.total === 0) {
+    reasons.push(
+      'Checklist DoD belum tersedia. Product Owner perlu menetapkan poin DoD terlebih dahulu.'
+    )
+  } else if (dod.total < MIN_DOD_ITEMS) {
+    reasons.push(
+      `Checklist DoD minimal ${MIN_DOD_ITEMS} poin (saat ini ${dod.total}). ` +
+        'Product Owner perlu melengkapi checklist DoD.'
+    )
+  } else if (!dod.complete) {
     reasons.push(
       `Checklist DoD belum terpenuhi (${dod.done}/${dod.total}): ` +
         dod.unchecked.map((i) => `"${i.text}"`).join(', ')

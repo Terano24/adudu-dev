@@ -10,9 +10,14 @@ const KanbanCard = React.memo(function KanbanCard({
   onDelete,
   onOpenDetail,
   meta,
+  canApprove,
+  onApprovalDecision,
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
+  const [approvalDecision, setApprovalDecision] = useState(null)
+  const [approvalReason, setApprovalReason] = useState('')
+  const [approvalError, setApprovalError] = useState('')
   const menuRef = useRef(null)
 
   useEffect(() => {
@@ -24,6 +29,49 @@ const KanbanCard = React.memo(function KanbanCard({
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
+
+  // Tutup form approval saat card berpindah kolom / keputusan berubah.
+  useEffect(() => {
+    setApprovalDecision(null)
+    setApprovalReason('')
+    setApprovalError('')
+  }, [card.id, card.column, card.approval?.decision])
+
+  const openApprovalForm = (decision) => (e) => {
+    e.stopPropagation()
+    setApprovalDecision(decision)
+    setApprovalReason('')
+    setApprovalError('')
+  }
+
+  const cancelApprovalForm = (e) => {
+    e.stopPropagation()
+    setApprovalDecision(null)
+    setApprovalReason('')
+    setApprovalError('')
+  }
+
+  const submitApproval = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const cleanReason = approvalReason.trim()
+    if (!cleanReason) {
+      setApprovalError('Alasan keputusan wajib diisi.')
+      return
+    }
+    if (!approvalDecision || !onApprovalDecision) {
+      setApprovalError('Keputusan tidak dapat diproses.')
+      return
+    }
+    const result = onApprovalDecision(card.id, approvalDecision, cleanReason)
+    if (result?.success) {
+      setApprovalDecision(null)
+      setApprovalReason('')
+      setApprovalError('')
+    } else {
+      setApprovalError(result?.error || 'Gagal menyimpan keputusan.')
+    }
+  }
 
   const handleDragStart = (e) => {
     if (!canMove) {
@@ -82,7 +130,7 @@ const KanbanCard = React.memo(function KanbanCard({
       className={`modern-kanban-card kanban-card ${isOverdue ? 'card-overdue' : ''} ${isBlocked ? 'card-blocked' : ''} ${
         isDragging ? 'is-card-dragging' : ''
       }`}
-      draggable={canMove}
+      draggable={canMove && !approvalDecision}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       style={{ cursor: canMove ? 'grab' : 'default' }}
@@ -246,6 +294,70 @@ const KanbanCard = React.memo(function KanbanCard({
             >
               {approvalCopy.label}
             </button>
+          )}
+        </div>
+      )}
+
+      {/* Aksi persetujuan langsung di card Review (PBI-009) */}
+      {card.column === 'Review' && canApprove && (
+        <div
+          className="card-approval-actions"
+          onClick={(e) => e.stopPropagation()}
+          onMouseDown={(e) => e.stopPropagation()}
+        >
+          {approvalDecision ? (
+            <form className="card-approval-form" onSubmit={submitApproval}>
+              <label htmlFor={`approval-reason-${card.id}`}>
+                Alasan {approvalDecision === 'approved' ? 'persetujuan' : 'permintaan revisi'} (wajib)
+              </label>
+              <textarea
+                id={`approval-reason-${card.id}`}
+                className="modern-input"
+                rows={2}
+                value={approvalReason}
+                onChange={(e) => {
+                  setApprovalReason(e.target.value)
+                  setApprovalError('')
+                }}
+                placeholder="Tuliskan alasan keputusan…"
+                autoFocus
+              />
+              <div className="card-approval-form-actions">
+                <button type="button" className="card-approval-cancel" onClick={cancelApprovalForm}>
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  className={`card-approval-submit ${
+                    approvalDecision === 'approved' ? 'is-approve' : 'is-revise'
+                  }`}
+                >
+                  Kirim
+                </button>
+              </div>
+              {approvalError && (
+                <p className="card-approval-error" role="alert">
+                  {approvalError}
+                </p>
+              )}
+            </form>
+          ) : (
+            <>
+              <button
+                type="button"
+                className="card-approval-btn is-approve"
+                onClick={openApprovalForm('approved')}
+              >
+                Setujui
+              </button>
+              <button
+                type="button"
+                className="card-approval-btn is-revise"
+                onClick={openApprovalForm('revision')}
+              >
+                Minta Revisi
+              </button>
+            </>
           )}
         </div>
       )}

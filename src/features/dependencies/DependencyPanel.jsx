@@ -104,8 +104,9 @@ export default function DependencyPanel({ card }) {
           >
             <option value="">Pilih card yang ditunggu…</option>
             {options.map(({ card: c, cyclic }) => (
-              <option key={c.id} value={c.id}>
-                {c.id} · {c.title} ({c.division}){cyclic ? ' — melingkar' : ''}
+              <option key={c.id} value={c.id} disabled={cyclic}>
+                {c.id} · {c.title} ({c.division})
+                {cyclic ? ' — tidak dapat dipilih (melingkar)' : ''}
               </option>
             ))}
           </select>

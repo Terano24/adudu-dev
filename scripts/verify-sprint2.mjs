@@ -8,6 +8,11 @@ import {
   wouldCreateCycle,
   getAverageRating,
   getApprovalState,
+  canCreateCardInColumn,
+  canRemoveDodItem,
+  nextApproval,
+  stripCardDependencies,
+  MIN_DOD_ITEMS,
 } from '../src/utils/index.js'
 import { SEED_BACKLOG } from '../src/data/seedData.js'
 
@@ -46,12 +51,36 @@ assert(getApprovalState({ column: 'Review' }) === 'pending', 'Card di Review tan
 const unapproved = canMoveToDone({ dodChecks: allChecked }, template)
 assert(!unapproved.allowed && unapproved.reasons.some((r) => r.includes('disetujui')), 'Done ditolak jika belum disetujui')
 
+// Regression: approval hanya berlaku untuk satu siklus Review -> Done
+const approvedReview = { column: 'Review', approval: { decision: 'approved' } }
+assert(
+  nextApproval(approvedReview, 'Done')?.decision === 'approved',
+  'Approval dipertahankan pada transisi Review -> Done'
+)
+assert(nextApproval(approvedReview, 'In Progress') === null, 'Approval direset saat keluar Review ke In Progress')
+assert(
+  nextApproval({ column: 'Done', approval: { decision: 'approved' } }, 'Review') === null,
+  'Approval basi direset saat card Done dibuka kembali ke Review'
+)
+assert(
+  nextApproval({ column: 'In Progress', approval: { decision: 'approved' } }, 'Review') === null,
+  'Approval basi direset saat card masuk kembali ke Review'
+)
+assert(
+  !canCreateCardInColumn('Done') && canCreateCardInColumn('Review'),
+  'Card baru tidak dapat langsung dibuat di Done'
+)
+
 console.log('\n--- PBI-010: Checklist DoD ---')
 assert(template.length === 5, 'Template DoD umum berisi 5 poin dari Product Backlog')
 assert(getDodStatus({}, template).total === 5, 'Checklist DoD otomatis tersedia di setiap card')
 assert(checkPermission(TEAM, 'check', 'dod') && checkPermission(PO, 'check', 'dod'), 'Anggota tim & PO dapat mencentang DoD')
 assert(!checkPermission(ALUMNI, 'check', 'dod'), 'Alumni tidak mencentang DoD')
 assert(checkPermission(PO, 'manage', 'dod') && !checkPermission(TEAM, 'manage', 'dod') && !checkPermission(ALUMNI, 'manage', 'dod'), 'Hanya PO yang dapat mengubah isi checklist DoD')
+assert(template.length === MIN_DOD_ITEMS, 'Jumlah minimal poin DoD adalah 5')
+assert(!canRemoveDodItem(template), 'PO tidak dapat menghapus poin DoD hingga di bawah 5')
+assert(canRemoveDodItem([...template, { id: 'dod-6', text: 'Poin tambahan' }]), 'Poin DoD tambahan boleh dihapus')
+assert(getDodStatus({}, []).complete === false, 'Template DoD kosong tidak dianggap selesai')
 
 console.log('\n--- PBI-011: Gatekeeper Done ---')
 const partial = { dodChecks: { 'dod-1': allChecked['dod-1'] }, approval: { decision: 'approved' } }
@@ -60,6 +89,19 @@ assert(!gate.allowed, 'Perpindahan ke Done ditolak jika ada checklist belum dice
 assert(gate.reasons[0].includes(template[1].text) && gate.reasons[0].includes('1/5'), 'Pesan penolakan menyebut item yang belum terpenuhi')
 assert(canMoveToDone({ dodChecks: allChecked, approval: { decision: 'approved' } }, template).allowed, 'DoD lengkap + disetujui = boleh Done')
 assert(getDodStatus({ dodChecks: allChecked }, template).items[0].check.by === 'Tester', 'Siapa yang mencentang & kapan tercatat')
+const emptyDodGate = canMoveToDone({ approval: { decision: 'approved' } }, [])
+assert(
+  !emptyDodGate.allowed && emptyDodGate.reasons.some((r) => r.includes('belum tersedia')),
+  'Gate Done menolak jika checklist DoD kosong'
+)
+const shortDodGate = canMoveToDone(
+  { dodChecks: allChecked, approval: { decision: 'approved' } },
+  template.slice(0, 4)
+)
+assert(
+  !shortDodGate.allowed && shortDodGate.reasons.some((r) => r.includes('minimal 5')),
+  'Gate Done menolak jika checklist DoD kurang dari 5 poin'
+)
 
 console.log('\n--- PBI-012: Dependensi ---')
 const cards = [
@@ -72,5 +114,19 @@ assert(!isBlocked(cards[1], cards), 'Card yang menunggu card Done tidak terbloki
 assert(wouldCreateCycle('C', 'A', cards), 'Dependensi melingkar tidak langsung (C→A→B→C) ditolak')
 assert(wouldCreateCycle('A', 'A', cards), 'Dependensi ke diri sendiri ditolak')
 assert(!wouldCreateCycle('C', 'D', [...cards, { id: 'D', column: 'To Do' }]), 'Dependensi valid diterima')
+
+// Regression: hapus card harus membersihkan referensi dependensi
+const afterDelete = stripCardDependencies(
+  [
+    { id: 'A', dependsOn: ['B', 'C'] },
+    { id: 'C', dependsOn: ['B'] },
+  ],
+  'B'
+)
+assert(
+  afterDelete.find((c) => c.id === 'A').dependsOn.join(',') === 'C' &&
+    afterDelete.find((c) => c.id === 'C').dependsOn.length === 0,
+  'Referensi dependensi ke card yang dihapus dibersihkan'
+)
 
 console.log(`\n🎉 Semua ${passed} pengujian Sprint 2 lulus.`)

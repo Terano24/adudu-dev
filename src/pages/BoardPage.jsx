@@ -7,9 +7,20 @@ import CardCollabPanel from '../features/collaboration/CardCollabPanel.jsx'
 import { getDodStatus, getBlockers, getAverageRating, getApprovalState } from '../utils/index.js'
 
 const COLUMNS = ['To Do', 'In Progress', 'Review', 'Done']
+// Card baru tidak boleh langsung dibuat di Done (PBI-009/011).
+const CREATE_COLUMNS = COLUMNS.filter((col) => col !== 'Done')
 
 export default function BoardPage() {
-  const { boardCards, addCard, updateCard, deleteCard, moveCard, resetToSeed, dodTemplate } = useData()
+  const {
+    boardCards,
+    addCard,
+    updateCard,
+    deleteCard,
+    moveCard,
+    decideApproval,
+    resetToSeed,
+    dodTemplate,
+  } = useData()
   const { can, user } = useAuth()
 
   // Modal / Form state
@@ -127,6 +138,12 @@ export default function BoardPage() {
       }
     },
     [can, moveCard, showToast]
+  )
+
+  // Keputusan persetujuan langsung dari card di kolom Review (PBI-009)
+  const handleApprovalDecision = useCallback(
+    (cardId, decision, reason) => decideApproval(cardId, decision, reason),
+    [decideApproval]
   )
 
   // Handle Buka Modal Detail Card (PBI-004)
@@ -595,6 +612,8 @@ export default function BoardPage() {
                   onDelete={handleDeleteCard}
                   onOpenDetail={handleOpenDetailCard}
                   cardMeta={cardMeta}
+                  canApprove={can('approve', 'card')}
+                  onApprovalDecision={handleApprovalDecision}
                 />
               ))}
             </div>
@@ -852,12 +871,15 @@ export default function BoardPage() {
                     value={newColumn}
                     onChange={(e) => setNewColumn(e.target.value)}
                   >
-                    {COLUMNS.map((col) => (
+                    {CREATE_COLUMNS.map((col) => (
                       <option key={col} value={col}>
                         {col}
                       </option>
                     ))}
                   </select>
+                  <span className="form-hint">
+                    Card baru tidak dapat langsung dibuat di Done.
+                  </span>
                 </div>
 
                 <div className="form-group">

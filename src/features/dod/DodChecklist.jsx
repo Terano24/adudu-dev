@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useData } from '../../context/DataContext.jsx'
 import { useAuth } from '../../context/AuthContext.jsx'
-import { getDodStatus } from '../../utils/index.js'
+import { getDodStatus, MIN_DOD_ITEMS } from '../../utils/index.js'
 import { formatDateTime } from '../collaboration/format.js'
 
 /**
@@ -114,6 +114,12 @@ export default function DodChecklist({ card }) {
                   <button
                     type="button"
                     className="collab-link-btn is-danger"
+                    disabled={dodTemplate.length <= MIN_DOD_ITEMS}
+                    title={
+                      dodTemplate.length <= MIN_DOD_ITEMS
+                        ? 'Checklist DoD minimal 5 poin. Tambahkan poin baru sebelum menghapus.'
+                        : `Hapus poin DoD "${item.text}"`
+                    }
                     onClick={() => {
                       if (window.confirm(`Hapus poin DoD "${item.text}" dari semua card?`)) {
                         run(removeDodItem(item.id))

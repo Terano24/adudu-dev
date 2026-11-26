@@ -7,7 +7,16 @@ import {
   SEED_VAULT_DOCUMENTS,
 } from '../data/seedData.js'
 import { useAuth } from './AuthContext.jsx'
-import { canMoveToDone, wouldCreateCycle, DONE_COLUMN, REVIEW_COLUMN } from '../utils/index.js'
+import {
+  canMoveToDone,
+  wouldCreateCycle,
+  canCreateCardInColumn,
+  canRemoveDodItem,
+  nextApproval,
+  stripCardDependencies,
+  DONE_COLUMN,
+  REVIEW_COLUMN,
+} from '../utils/index.js'
 
 // Template DoD awal: 5 poin Definition of Done dari Product Backlog (PBI-010)
 const SEED_DOD_TEMPLATE = (SEED_BACKLOG.dod || []).map((text, i) => ({
@@ -80,6 +89,14 @@ export function DataProvider({ children }) {
       }
     }
 
+    if (!canCreateCardInColumn(newCardData.column || 'To Do')) {
+      return {
+        success: false,
+        error:
+          'Card baru tidak dapat langsung dibuat di kolom Done. Mulai dari To Do/In Progress, lalu lewati Review dan checklist DoD.',
+      }
+    }
+
     const card = {
       id: 'CARD-' + String(Date.now()).slice(-4),
       title: newCardData.title || 'Judul Card Baru',
@@ -106,7 +123,12 @@ export function DataProvider({ children }) {
       }
     }
 
-    setBoardCards((prev) => prev.filter((c) => c.id !== cardId))
+    setBoardCards((prev) =>
+      stripCardDependencies(
+        prev.filter((c) => c.id !== cardId),
+        cardId
+      )
+    )
     return { success: true }
   }
 
@@ -141,12 +163,11 @@ export function DataProvider({ children }) {
   // Perpindahan kolom dengan gatekeeper Done (PBI-011) & persetujuan (PBI-009)
   const applyMove = (card, targetColumn) => {
     const now = new Date().toISOString()
-    const leavingReview = card.column === REVIEW_COLUMN && targetColumn !== DONE_COLUMN
     return {
       column: targetColumn,
       updatedAt: now,
-      // Persetujuan berlaku untuk satu siklus Review; keluar Review (selain ke Done) meresetnya
-      approval: leavingReview ? null : card.approval || null,
+      // Approval hanya dipertahankan pada Review -> Done; transisi lain mereset siklus approval
+      approval: nextApproval(card, targetColumn),
       history: [
         ...(card.history || []),
         { from: card.column, to: targetColumn, movedAt: now, by: actor().name },
@@ -277,7 +298,13 @@ export function DataProvider({ children }) {
     patchCard(cardId, (c) => {
       const checks = { ...(c.dodChecks || {}) }
       if (checks[itemId]) delete checks[itemId]
-      else checks[itemId] = { by: me.name, role: me.role, at: new Date().toISOString() }
+      else
+        checks[itemId] = {
+          by: me.name,
+          username: me.username,
+          role: me.role,
+          at: new Date().toISOString(),
+        }
       return { dodChecks: checks }
     })
     return { success: true }
@@ -307,7 +334,22 @@ export function DataProvider({ children }) {
   const removeDodItem = (itemId) => {
     const denied = requireDodManager()
     if (denied) return denied
+    if (!canRemoveDodItem(dodTemplate)) {
+      return {
+        success: false,
+        error: 'Checklist DoD minimal 5 poin. Tambahkan poin pengganti sebelum menghapus poin lama.',
+      }
+    }
     setDodTemplate((prev) => prev.filter((i) => i.id !== itemId))
+    // Bersihkan centang lama agar tidak menjadi data yatim di setiap card.
+    setBoardCards((prev) =>
+      prev.map((card) => {
+        if (!card.dodChecks || !(itemId in card.dodChecks)) return card
+        const nextChecks = { ...card.dodChecks }
+        delete nextChecks[itemId]
+        return { ...card, dodChecks: nextChecks }
+      })
+    )
     return { success: true }
   }
 

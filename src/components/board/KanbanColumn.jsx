@@ -30,6 +30,8 @@ const KanbanColumn = React.memo(function KanbanColumn({
   onDelete,
   onOpenDetail,
   cardMeta,
+  canApprove,
+  onApprovalDecision,
 }) {
   const [isDragOver, setIsDragOver] = useState(false)
   const theme = COLUMN_THEMES[colName] || { slug: 'todo', dotColor: '#94A3B8' }
@@ -97,6 +99,8 @@ const KanbanColumn = React.memo(function KanbanColumn({
               onDelete={onDelete}
               onOpenDetail={onOpenDetail}
               meta={cardMeta ? cardMeta[card.id] : undefined}
+              canApprove={canApprove}
+              onApprovalDecision={onApprovalDecision}
             />
           ))
         )}

@@ -6054,6 +6054,109 @@ html[data-theme="dark"] .status-chip.is-blocked { color: #FCA5A5; }
   text-overflow: ellipsis;
 }
 
+/* Aksi persetujuan langsung di card Review (PBI-009) */
+.card-approval-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.card-approval-btn {
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.card-approval-btn.is-approve {
+  background-color: var(--color-emerald);
+  color: #FFFFFF;
+}
+
+.card-approval-btn.is-approve:hover {
+  background-color: #059669;
+}
+
+.card-approval-btn.is-revise {
+  background-color: var(--bg-card);
+  color: var(--color-rose);
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.card-approval-btn.is-revise:hover {
+  background-color: rgba(239, 68, 68, 0.06);
+}
+
+.card-approval-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-card-subtle);
+}
+
+.card-approval-form label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.card-approval-form .modern-input {
+  width: 100%;
+  min-height: 56px;
+  resize: vertical;
+}
+
+.card-approval-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.card-approval-cancel,
+.card-approval-submit {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+}
+
+.card-approval-cancel {
+  color: var(--text-muted);
+  background-color: transparent;
+  border: 1px solid var(--border-card);
+}
+
+.card-approval-submit.is-approve {
+  background-color: var(--color-emerald);
+  color: #FFFFFF;
+}
+
+.card-approval-submit.is-revise {
+  background-color: var(--color-rose);
+  color: #FFFFFF;
+}
+
+.card-approval-error {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-rose);
+}
+
+.form-hint {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
 .card-indicator-row {
   display: flex;
   align-items: center;
@@ -6257,6 +6360,12 @@ html[data-theme="dark"] .status-chip.is-blocked { color: #FCA5A5; }
 
 .collab-link-btn.is-danger {
   color: var(--color-rose);
+}
+
+.collab-link-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  background-color: transparent;
 }
 
 .collab-inline-form {
